@@ -51,7 +51,7 @@ La aplicación podrá:
 5. **CRUD** contará con una interfaz para administrar las entidades `EmpleadoBase`, permitiendo crear, editar y eliminar estas entidades, demostrando la herencia implementada en el punto 1. *(Figuras 2 y 3)*
 
 6. **URLs del proyectos:**
-   * **Repositorio del proyecto:**  https://git.institutomilitar.com/A50tc0/gehoper.git
+   * **Repositorio del proyecto:**  https://git.institutomilitar.com/A50tc0/gehoper/
 
 7. **Despliegue en Internet:**
    * **API:** *TBD*
