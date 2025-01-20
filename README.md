@@ -64,4 +64,4 @@ La aplicación podrá:
 ### Figura 2: Interfaz de Empleados Laborales
 ![Figura2](https://git.institutomilitar.com/A50tc0/gehoper/-/wikis/Interfaz/GEHOPER_Empleado_Laboral_01.jpg)
 ### Figura 3: Interfaz de Empleados de Prácticas
-![Figura3](https://git.institutomilitar.com/A50tc0/gehoper/-/wikis/Interfaz/GEHOPER_Empleado_Prácticas_01.jpg)
+![Figura3](https://git.institutomilitar.com/A50tc0/gehoper/-/wikis/Interfaz/GEHOPER_Empleado_Practicas_01.jpg)
