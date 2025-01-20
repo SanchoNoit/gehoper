@@ -4,9 +4,9 @@ La aplicación permitirá la gestión de los turnos de trabajo de los empleados 
 Los turnos se reflejarán en un calendario mensual, de manera que se muestren los turnos correspondiente a cada empleado, según el horario de apertura de la tienda y una serie de restricciones sobre coberturas mínimas y horas semanales trabajadas por empleado, según su puesto de trabajo.
 
 La aplicación podrá:
-1. Ofrecer de una propuesta de calendario de turnos, según los criterios establecidos y restricciones establecidas.
+1. Ofrecer de una propuesta de calendario de turnos, según los criterios y restricciones establecidas.
 2. Una gestion de turnos, de manera que se puedan modificar los existentes o agregar nuevos según sea necesario.
-3. Permitir establecer los empleados que cumpliran los turnos, así como añadir estudiantes de practicas que reciben anualmente.
+3. Permitir establecer los empleados que cumplirán los turnos, así como añadir estudiantes de practicas que reciben anualmente.
 4. Configuración manual de los turnos, para una posterior validación. En caso de no cumplir con las restricciones, se mostrarán mensajes de advertencia sobre los aspectos que no cumplen los criterios preestablecidos.
 5. La exportación de reportes sobre los turnos y horas trabajadas por cada empleado. 
 ### Validaciones Automáticas
@@ -51,7 +51,8 @@ La aplicación podrá:
 5. **CRUD** contará con una interfaz para administrar las entidades `EmpleadoBase`, permitiendo crear, editar y eliminar estas entidades, demostrando la herencia implementada en el punto 1. *(Figuras 2 y 3)*
 
 6. **URLs del proyectos:**
-   * **Repositorio del proyecto:**  https://git.institutomilitar.com/A50tc0/gehoper/
+   * **Repositorio del proyecto:**  https://git.institutomilitar.com/A50tc0/gehoper.git
+   * **Librería:**  *TBD*
 
 7. **Despliegue en Internet:**
    * **API:** *TBD*
@@ -63,4 +64,4 @@ La aplicación podrá:
 ### Figura 2: Interfaz de Empleados Laborales
 ![Figura2](https://git.institutomilitar.com/A50tc0/gehoper/-/wikis/Interfaz/GEHOPER_Empleado_Laboral_01.jpg)
 ### Figura 3: Interfaz de Empleados de Prácticas
-![Figura3](https://git.institutomilitar.com/A50tc0/gehoper/-/wikis/Interfaz/GEHOPER_Empleado_Practicas_01.jpg)
+![Figura3](https://git.institutomilitar.com/A50tc0/gehoper/-/wikis/Interfaz/GEHOPER_Empleado_Prácticas_01.jpg)
