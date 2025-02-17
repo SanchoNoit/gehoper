@@ -37,21 +37,21 @@ La aplicación podrá:
    * La tienda abre de lunes a sábado, y ciertos domingos o festivos autorizados.
 
 ## Diagrama de Clases de diseño
-![Diagrama de Clases](https://git.institutomilitar.com/A50tc0/gehoper/-/wikis/Diagramas/GEHOPER_DiagramaClases_3.jpg)
+![Diagrama de Clases](https://git.institutomilitar.com/A50tc0/gehoper/-/wikis/Diagramas/GEHOPER_DiagramaClases_4.jpg)
 
 ## Cumplimiento de requisitos
 1. **Herencia:** existe herencia entre `EmpleadoBase` y sus subtipos.
 
-2. **Relaciones One-To-Many:** un `EmpleadoBase` tiene multiples `Asignaciones`. Se mostrarán en el calendario mensual, los turnos correspondiente a cada empleado.*(Figura 1)*
+2. **Relaciones One-To-Many:** un `EmpleadoBase` tiene multiples `Asignaciones`, lo que representa los turnos asignados a cada empleado. Se mostrarán en el calendario mensual, los turnos correspondiente a cada empleado.*(Figura 1)*
 
-3. **Método personalizado:** el método `generarReporte` de la interfaz Reportable, generará un informe con la información de las horas y turnos trabajados por cada empleado, durante un periodo de tiempo determinado.
+3. **Método personalizado:** el método `generarReporte` de la interfaz `Reportable`, generará un informe con la información de las horas y turnos trabajados por cada empleado, durante un periodo de tiempo determinado.
 
-4. **Listado de entidades en la aplicación web:** se implementará una vista que muestre el listado de `Turnos` de un `Empleado`, utilizando la relación *Uno a Muchos* definida en el punto 2.
+4. **Listado de entidades en la aplicación web:** se implementará una vista que muestre el listado de `Turnos` de un `Empleado`, basado en la relación *Uno a Muchos* entre `EmpleadoBase` y `Asignacion` definida en el punto 2.
 
 5. **CRUD** contará con una interfaz para administrar las entidades `EmpleadoBase`, permitiendo crear, editar y eliminar estas entidades, demostrando la herencia implementada en el punto 1. *(Figuras 2 y 3)*
 
 6. **URLs del proyectos:**
-   * **Repositorio del proyecto:**  https://git.institutomilitar.com/A50tc0/gehoper.git
+   * **Repositorio del proyecto:**  https://git.institutomilitar.com/A50tc0/gehoper
    * **Librería:**  *TBD*
 
 7. **Despliegue en Internet:**
