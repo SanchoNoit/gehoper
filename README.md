@@ -42,11 +42,11 @@ La aplicación podrá:
 ## Cumplimiento de requisitos
 1. **Herencia:** existe herencia entre `EmpleadoBase` y sus subtipos.
 
-2. **Relaciones One-To-Many:** un `EmpleadoBase` tiene multiples `Asignaciones`, lo que representa los turnos asignados a cada empleado. Se mostrarán en el calendario mensual, los turnos correspondiente a cada empleado.*(Figura 1)*
+2. **Relaciones One-To-Many:** un `EmpleadoBase` tiene multiples `Asignaciones`, lo que representa los turnos asignados a cada empleado. Se mostrarán en el calendario mensual, los turnos correspondiente a cada empleado. *(Figura 1)*
 
 3. **Método personalizado:** el método `generarReporte` de la interfaz `Reportable`, generará un informe con la información de las horas y turnos trabajados por cada empleado, durante un periodo de tiempo determinado.
 
-4. **Listado de entidades en la aplicación web:** se implementará una vista que muestre el listado de `Turnos` de un `Empleado`, basado en la relación *Uno a Muchos* entre `EmpleadoBase` y `Asignacion` definida en el punto 2.
+4. **Listado de entidades en la aplicación web:** la vista mostrará las `Asignaciones` de un `EmpleadoBase` definidas en el punto 2. *(Figura 1)*
 
 5. **CRUD** contará con una interfaz para administrar las entidades `EmpleadoBase`, permitiendo crear, editar y eliminar estas entidades, demostrando la herencia implementada en el punto 1. *(Figuras 2 y 3)*
 
