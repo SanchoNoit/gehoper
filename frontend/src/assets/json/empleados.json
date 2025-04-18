@@ -1,0 +1,150 @@
+{
+  "_embedded": {
+    "empleados": [
+      {
+        "nombreCompleto": "Juan José Aguilar López",
+        "id" : "001JJALTAG3",
+        "tag": 3,
+        "contrato": {
+          "numeroHorasSemanales": 40,
+          "esReductor": false,
+          "esConciliador": true
+        },
+        "_links": {
+          "self": {
+            "href": "http://gehoper-api.b4a.run/api/empleados/001JJALTAG3"
+          },
+          "empleado": {
+            "href": "http://gehoper-api.b4a.run/api/empleados/001JJALTAG3"
+          }
+        }
+      },
+      {
+        "nombreCompleto": "Ana María Torres Díaz",
+        "id" : "002AMTDTAG3",
+        "tag": 3,
+        "contrato": {
+          "numeroHorasSemanales": 40,
+          "esReductor": false,
+          "esConciliador": false
+        },
+        "_links": {
+          "self": {
+            "href": "http://gehoper-api.b4a.run/api/empleados/002AMTDTAG3"
+          },
+          "empleado": {
+            "href": "http://gehoper-api.b4a.run/api/empleados/002AMTDTAG3"
+          }
+        }
+      },
+      {
+        "nombreCompleto": "Luis Fernando Márquez Ruiz",
+        "id" : "003LFMRTAG3",
+        "tag": 3,
+        "contrato": {
+          "numeroHorasSemanales": 40,
+          "esReductor": false,
+          "esConciliador": false
+        },
+        "_links": {
+          "self": {
+            "href": "http://gehoper-api.b4a.run/api/empleados/003LFMRTAG3"
+          },
+          "empleado": {
+            "href": "http://gehoper-api.b4a.run/api/empleados/003LFMRTAG3"
+          }
+        }
+      },
+      {
+        "nombreCompleto": "María del Carmen Soto Vega",
+        "id" : "004MCSVTAG3",
+        "tag": 3,
+        "contrato": {
+          "numeroHorasSemanales": 30,
+          "esReductor": true,
+          "esConciliador": false
+        },
+        "_links": {
+          "self": {
+            "href": "http://gehoper-api.b4a.run/api/empleados/004MCSVTAG3"
+          },
+          "empleado": {
+            "href": "http://gehoper-api.b4a.run/api/empleados/004MCSVTAG3"
+          }
+        }
+      },
+      {
+        "nombreCompleto": "Pedro Ignacio Rivera León",
+        "id" : "005PIRLTAG1",
+        "tag": 1,
+        "contrato": {
+          "numeroHorasSemanales": 40,
+          "esReductor": false,
+          "esConciliador": false
+        },
+        "_links": {
+          "self": {
+            "href": "http://gehoper-api.b4a.run/api/empleados/005PIRLTAG1"
+          },
+          "empleado": {
+            "href": "http://gehoper-api.b4a.run/api/empleados/005PIRLTAG1"
+          }
+        }
+      },
+      {
+        "nombreCompleto": "Laura Jiménez Castro",
+        "id" : "006LJCTAG1",
+        "tag": 1,
+        "contrato": {
+          "numeroHorasSemanales": 20,
+          "esReductor": false,
+          "esConciliador": false
+        },
+        "_links": {
+          "self": {
+            "href": "http://gehoper-api.b4a.run/api/empleados/006LJCTAG1"
+          },
+          "empleado": {
+            "href": "http://gehoper-api.b4a.run/api/empleados/006LJCTAG1"
+          }
+        }
+      },
+      {
+        "nombreCompleto": "Carlos Alberto Núñez Ríos",
+        "id" : "007CANRTAG1",
+        "tag": 1,
+        "contrato": {
+          "numeroHorasSemanales": 20,
+          "esReductor": false,
+          "esConciliador": false
+        },
+        "_links": {
+          "self": {
+            "href": "http://gehoper-api.b4a.run/api/empleados/007CANRTAG1"
+          },
+          "empleado": {
+            "href": "http://gehoper-api.b4a.run/api/empleados/007CANRTAG1"
+          }
+        }
+      },
+      {
+        "nombreCompleto": "Sandra Beatriz Gómez Peña",
+        "id" : "008SBGPTAG1",
+        "tag": 1,
+        "contrato": {
+          "numeroHorasSemanales": 20,
+          "esReductor": true,
+          "esConciliador": false
+        },
+        "_links": {
+          "self": {
+            "href": "http://gehoper-api.b4a.run/api/empleados/008SBGPTAG1"
+          },
+          "empleado": {
+            "href": "http://gehoper-api.b4a.run/api/empleados/008SBGPTAG1"
+          }
+        }
+      }
+    ]
+  }
+}

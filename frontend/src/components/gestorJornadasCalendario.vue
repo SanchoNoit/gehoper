@@ -1,59 +1,48 @@
 <script>
+import { mapActions, mapState } from "pinia";
+import { useJornadasStore } from "../stores/jornadas";
+import moment from "moment";
+
 export default {
-  mounted() {
-    console.log(`the component is now mounted.`);
+  async mounted() {
+    const jornadasStore = useJornadasStore();
+
+    await jornadasStore.inicializarJornadas();
+    await jornadasStore.rellenarCalendario();
+  },
+
+  data() {
+    return {
+      nombresDeDiasArray: [
+        "Domingo",
+        "Lunes",
+        "Martes",
+        "Miercoles",
+        "Jueves",
+        "Viernes",
+        "Sabado",
+      ],
+    };
+  },
+
+  ...mapActions(useJornadasStore, ["inicializarJornadas"]),
+
+  computed: {
+    ...mapState(useJornadasStore, ["jornadasAgrupadasEnSemanasLaborales"]),
   },
 };
 </script>
 
 <template>
-  <!-- TODO: Customizar el modal para mostrar -->
-  <!-- Button trigger modal -->
-  <button
-    type="button"
-    class="btn btn-primary"
-    data-bs-toggle="modal"
-    data-bs-target="#staticBackdrop"
-  >
-    Launch static backdrop modal
-  </button>
-
-  <!-- Modal -->
-  <div
-    class="modal fade"
-    id="staticBackdrop"
-    data-bs-backdrop="static"
-    data-bs-keyboard="false"
-    tabindex="-1"
-    aria-labelledby="staticBackdropLabel"
-    aria-hidden="true"
-  >
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h1 class="modal-title fs-5" id="staticBackdropLabel">Modal title</h1>
-          <button
-            type="button"
-            class="btn-close"
-            data-bs-dismiss="modal"
-            aria-label="Close"
-          ></button>
-        </div>
-        <div class="modal-body">
-          Aquí se ofrecerían dos botones para permitir autogenerar un calendario
-          o hacerlo manualmente
-        </div>
-        <div class="modal-footer">
-          <button
-            type="button"
-            class="btn btn-secondary"
-            data-bs-dismiss="modal"
-          >
-            Close
-          </button>
-          <button type="button" class="btn btn-primary">Generar calendario</button>
-        </div>
-      </div>
-    </div>
+  <h1 class="text-center">Gestión de turnos y empleados</h1>
+  <div class="container-fluid border text-center p-2">
+    <h3>Barra de estado de avisos de semanas del año</h3>
   </div>
+  <!-- <div v-for="semana in this.jornadasAgrupadasEnSemanasLaborales" :key="index">
+    <p>Semana {{ semana }}</p>
+    </div> -->
+
+    <div>
+      <p> {{ jornadasAgrupadasEnSemanasLaborales }} </p>
+    </div>
 </template>
