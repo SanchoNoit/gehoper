@@ -1,6 +1,7 @@
 import { describe, it, expect, beforeEach } from "vitest";
 import { setActivePinia, createPinia } from "pinia";
 import { useJornadasStore } from "@/stores/jornadas";
+import funcionesAuxiliares from "@/assets/scripts/funcionesAuxiliares";
 
 describe("Jornadas Store", () => {
   beforeEach(() => {
@@ -292,5 +293,116 @@ describe("Jornadas Store", () => {
     expect(store.estaEmpleadoPresenteEnJornada(empleado3, jornada4)).toBe(
       false
     );
+  });
+
+  it("Devuelve un string con el turno de un empleado", () => {
+    const empleado1 = {
+      nombreCompleto: "Juan José Aguilar López",
+      id: "001JJALTAG3",
+      tag: 3,
+      contrato: {
+        numeroHorasSemanales: 40,
+        esReductor: false,
+        esConciliador: true,
+      },
+      _links: {
+        self: {
+          href: "http://gehoper-api.b4a.run/api/empleados/001JJALTAG3",
+        },
+        empleado: {
+          href: "http://gehoper-api.b4a.run/api/empleados/001JJALTAG3",
+        },
+      },
+    };
+
+    const empleado2 = {
+      nombreCompleto: "Ramon Ayala Bayona",
+      id: "002JRAYBA3",
+      tag: 3,
+      contrato: {
+        numeroHorasSemanales: 40,
+        esReductor: false,
+        esConciliador: true,
+      },
+      _links: {
+        self: {
+          href: "http://gehoper-api.b4a.run/api/empleados/001JJALTAG3",
+        },
+        empleado: {
+          href: "http://gehoper-api.b4a.run/api/empleados/001JJALTAG3",
+        },
+      },
+    };
+
+    const empleado3 = {
+      nombreCompleto: "Maria Celas López",
+      id: "003MCELO3",
+      tag: 3,
+      contrato: {
+        numeroHorasSemanales: 40,
+        esReductor: false,
+        esConciliador: true,
+      },
+      _links: {
+        self: {
+          href: "http://gehoper-api.b4a.run/api/empleados/001JJALTAG3",
+        },
+        empleado: {
+          href: "http://gehoper-api.b4a.run/api/empleados/001JJALTAG3",
+        },
+      },
+    };
+
+    const jornada1 = {
+      fecha: "2025-12-25T23:00:00.000Z",
+      asignacionesPorHoraTag3: [
+        [empleado1, empleado3],
+        [empleado1, empleado3],
+        [empleado1, empleado3],
+        [empleado1, empleado3],
+        [],
+        [],
+        [],
+        [empleado2, empleado3],
+        [empleado2, empleado3],
+        [empleado2, empleado3],
+        [empleado2, empleado3],
+      ],
+      asignacionesPorHoraTag1: [[], [], [], [], [], [], [], [], [], [], []],
+    };
+
+    const jornada2 = {
+      fecha: "2025-12-25T23:00:00.000Z",
+      asignacionesPorHoraTag3: [
+        [empleado3],
+        [empleado3],
+        [empleado3],
+        [empleado3],
+        [],
+        [],
+        [],
+        [empleado3],
+        [empleado3],
+        [empleado3],
+        [empleado3],
+      ],
+      asignacionesPorHoraTag1: [[], [], [], [], [], [], [], [], [], [], []],
+    };
+
+    let respuesta = "10:00 - 14:00"
+    expect(funcionesAuxiliares.obtenerStringHorarioDeEmpleadoDeDiaParticular(empleado1, jornada1)).toBe(respuesta)
+
+    respuesta = ""
+    expect(funcionesAuxiliares.obtenerStringHorarioDeEmpleadoDeDiaParticular(empleado1, jornada2)).toBe(respuesta)
+
+    respuesta = "17:00 - 21:00"
+    expect(funcionesAuxiliares.obtenerStringHorarioDeEmpleadoDeDiaParticular(empleado2, jornada1)).toBe(respuesta)
+
+    respuesta = "10:00 - 14:00 y 17:00 - 21:00"
+    expect(funcionesAuxiliares.obtenerStringHorarioDeEmpleadoDeDiaParticular(empleado3, jornada1)).toBe(respuesta)
+
+    respuesta = "10:00 - 14:00 y 17:00 - 21:00"
+    expect(funcionesAuxiliares.obtenerStringHorarioDeEmpleadoDeDiaParticular(empleado3, jornada2)).toBe(respuesta)
+
   });
 });

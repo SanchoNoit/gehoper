@@ -11,8 +11,5 @@ export const useEmpleadosStore = defineStore("empleados", {
   getters: {},
 
   actions: {
-    buscarEmpleadoOptimoEnBloqueHorario(tag, fecha, indiceHora) {
-      // console.log(`Se solicita un empleado ${tag} para la franja horaria ${fecha} - ${(indiceHora + 10) }`);
-    },
   },
 });

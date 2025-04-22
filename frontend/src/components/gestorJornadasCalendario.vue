@@ -4,13 +4,6 @@ import { useJornadasStore } from "../stores/jornadas";
 import moment from "moment";
 
 export default {
-  async mounted() {
-    const jornadasStore = useJornadasStore();
-
-    await jornadasStore.inicializarJornadas();
-    await jornadasStore.rellenarCalendario();
-  },
-
   data() {
     return {
       nombresDeDiasArray: [
@@ -38,11 +31,10 @@ export default {
   <div class="container-fluid border text-center p-2">
     <h3>Barra de estado de avisos de semanas del año</h3>
   </div>
-  <!-- <div v-for="semana in this.jornadasAgrupadasEnSemanasLaborales" :key="index">
-    <p>Semana {{ semana }}</p>
-    </div> -->
-
-    <div>
-      <p> {{ jornadasAgrupadasEnSemanasLaborales }} </p>
+  <div v-for="semana of this.jornadasAgrupadasEnSemanasLaborales" class="border">
+    <div v-for="jornadas in semana">
+      <p>{{ jornadas.fecha }}</p>
     </div>
+  </div>
+
 </template>

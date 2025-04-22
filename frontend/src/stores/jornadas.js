@@ -10,7 +10,8 @@ export const useJornadasStore = defineStore("jornadas", {
     return {
       jornadasGuardadasEnPinia: [],
       esCalendarioNuevo: true,
-      jornadasAgrupadasEnSemanasLaborales: [],
+      jornadasAgrupadasEnSemanasLaborales: {},
+      arrayDeTurnos : []
     };
   },
 
@@ -21,7 +22,7 @@ export const useJornadasStore = defineStore("jornadas", {
   actions: {
     ...mapActions(useEmpleadosStore, ["buscarEmpleadoOptimoEnBloqueHorario"]),
 
-    inicializarJornadas() {
+    async inicializarJornadas() {
       // Vamos a comprobar que el array de jornadas está en el local storage.
       const estaEnLocalStorage = localStorage.getItem(
         "jornadasGuardadasEnPinia"
@@ -53,7 +54,7 @@ export const useJornadasStore = defineStore("jornadas", {
       this.jornadasGuardadasEnPinia = jornadas;
     },
 
-    rellenarCalendario() {
+    async rellenarCalendario() {
       // Agrupamos las jornadas por semana
       this.agruparJornadasEnSemanas();
 
@@ -72,7 +73,21 @@ export const useJornadasStore = defineStore("jornadas", {
         
       }
 
-      debugger
+      // Rellenamos el array de turnos para mostrar los eventos en el calendario
+      for (let jornada of this.jornadasGuardadasEnPinia) {
+        for (let empleado of this.empleados) {
+          if (funcionesAuxiliares.obtenerStringHorarioDeEmpleadoDeDiaParticular(empleado, jornada)) {
+            let colorEvento = empleado.tag === 1 ? "purple" : "blue";
+            this.arrayDeTurnos.push({
+              title: `${empleado.id.substring(4,7)} : ${funcionesAuxiliares.obtenerStringHorarioDeEmpleadoDeDiaParticular(empleado, jornada)}`,
+              date: moment(new Date(jornada.fecha)).toISOString(),
+              backgroundColor: colorEvento,
+              display: 'block',
+              allDay: true
+            })
+          }
+        }
+      }
     },
 
     rellenarSemanaLaboral() {
