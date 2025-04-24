@@ -12,35 +12,4 @@ export default {
         
         return hayAlgunElementoCompartido;
     },
-
-    obtenerStringHorarioDeEmpleadoDeDiaParticular(empleado, jornada) {
-        let arrayTurnosDelTag = (empleado.tag === 1) ? jornada.asignacionesPorHoraTag1 : jornada.asignacionesPorHoraTag3;
-        let indiceHoraInicial = 0;
-        let indiceHoraFinal = 0;
-        let stringConHorario = "";
-
-        if(arrayTurnosDelTag[indiceHoraInicial].some((emp) => emp.id === empleado.id)) {
-            do {
-                indiceHoraFinal++
-                if (indiceHoraFinal > 8) {
-                    debugger
-                }
-            } while (arrayTurnosDelTag[indiceHoraFinal].some((emp) => emp.id === empleado.id));
-
-            stringConHorario = "10:00 - " + (10 + indiceHoraFinal) + ":00"
-        }
-
-        indiceHoraFinal = 10
-        indiceHoraInicial = 10
-
-        if(arrayTurnosDelTag[indiceHoraFinal].some((emp) => emp.id === empleado.id)) {
-            do {
-                indiceHoraInicial--
-            } while (arrayTurnosDelTag[indiceHoraInicial].some((emp) => emp.id === empleado.id));
-            stringConHorario += stringConHorario === "" ? "" : " y "
-            stringConHorario += (11 + indiceHoraInicial) + ":00 - " + "21:00"
-        }
-        
-        return stringConHorario;
-    }
 }

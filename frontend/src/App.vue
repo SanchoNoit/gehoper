@@ -1,14 +1,10 @@
 <script>
 import NavBar from "@/components/navegacion/navbar.vue";
 import Footer from "@/components/navegacion/footer.vue";
-import { useJornadasStore } from "@/stores/jornadas";
 
 export default {
   async mounted() {
-    const jornadasStore = useJornadasStore();
-
-    await jornadasStore.inicializarJornadas();
-    await jornadasStore.rellenarCalendario();
+    // TODO: Crear la lógica al montar el componente principal
   },
 
   components: { NavBar, Footer },
@@ -20,5 +16,5 @@ export default {
 
   <router-view></router-view>
 
-  <Footer class="bg"></Footer>
+  <Footer></Footer>
 </template>
