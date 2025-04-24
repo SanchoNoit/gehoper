@@ -3,7 +3,7 @@
     "empleados": [
       {
         "nombreCompleto": "Juan José Aguilar López",
-        "id" : "001JJALTAG3",
+        "id" : "1",
         "tag": 3,
         "contrato": {
           "numeroHorasSemanales": 40,
@@ -12,16 +12,17 @@
         },
         "_links": {
           "self": {
-            "href": "http://gehoper-api.b4a.run/api/empleados/001JJALTAG3"
+            "href": "http://gehoper-api.b4a.run/api/empleados/1"
           },
           "empleado": {
-            "href": "http://gehoper-api.b4a.run/api/empleados/001JJALTAG3"
+            "href": "http://gehoper-api.b4a.run/api/empleados/1"
           }
-        }
+        },
+        "turnos": []
       },
       {
         "nombreCompleto": "Ana María Torres Díaz",
-        "id" : "002AMTDTAG3",
+        "id" : "2",
         "tag": 3,
         "contrato": {
           "numeroHorasSemanales": 40,
@@ -30,16 +31,17 @@
         },
         "_links": {
           "self": {
-            "href": "http://gehoper-api.b4a.run/api/empleados/002AMTDTAG3"
+            "href": "http://gehoper-api.b4a.run/api/empleados/2"
           },
           "empleado": {
-            "href": "http://gehoper-api.b4a.run/api/empleados/002AMTDTAG3"
+            "href": "http://gehoper-api.b4a.run/api/empleados/2"
           }
-        }
+        },
+        "turnos": []
       },
       {
         "nombreCompleto": "Luis Fernando Márquez Ruiz",
-        "id" : "003LFMRTAG3",
+        "id" : "3",
         "tag": 3,
         "contrato": {
           "numeroHorasSemanales": 40,
@@ -48,16 +50,17 @@
         },
         "_links": {
           "self": {
-            "href": "http://gehoper-api.b4a.run/api/empleados/003LFMRTAG3"
+            "href": "http://gehoper-api.b4a.run/api/empleados/3"
           },
           "empleado": {
-            "href": "http://gehoper-api.b4a.run/api/empleados/003LFMRTAG3"
+            "href": "http://gehoper-api.b4a.run/api/empleados/3"
           }
-        }
+        },
+        "turnos": []
       },
       {
         "nombreCompleto": "María del Carmen Soto Vega",
-        "id" : "004MCSVTAG3",
+        "id" : "4",
         "tag": 3,
         "contrato": {
           "numeroHorasSemanales": 30,
@@ -66,16 +69,17 @@
         },
         "_links": {
           "self": {
-            "href": "http://gehoper-api.b4a.run/api/empleados/004MCSVTAG3"
+            "href": "http://gehoper-api.b4a.run/api/empleados/4"
           },
           "empleado": {
-            "href": "http://gehoper-api.b4a.run/api/empleados/004MCSVTAG3"
+            "href": "http://gehoper-api.b4a.run/api/empleados/4"
           }
-        }
+        },
+        "turnos": []
       },
       {
         "nombreCompleto": "Pedro Ignacio Rivera León",
-        "id" : "005PIRLTAG1",
+        "id" : "5",
         "tag": 1,
         "contrato": {
           "numeroHorasSemanales": 40,
@@ -84,16 +88,17 @@
         },
         "_links": {
           "self": {
-            "href": "http://gehoper-api.b4a.run/api/empleados/005PIRLTAG1"
+            "href": "http://gehoper-api.b4a.run/api/empleados/5"
           },
           "empleado": {
-            "href": "http://gehoper-api.b4a.run/api/empleados/005PIRLTAG1"
+            "href": "http://gehoper-api.b4a.run/api/empleados/5"
           }
-        }
+        },
+        "turnos": []
       },
       {
         "nombreCompleto": "Laura Jiménez Castro",
-        "id" : "006LJCTAG1",
+        "id" : "6",
         "tag": 1,
         "contrato": {
           "numeroHorasSemanales": 20,
@@ -102,16 +107,17 @@
         },
         "_links": {
           "self": {
-            "href": "http://gehoper-api.b4a.run/api/empleados/006LJCTAG1"
+            "href": "http://gehoper-api.b4a.run/api/empleados/6"
           },
           "empleado": {
-            "href": "http://gehoper-api.b4a.run/api/empleados/006LJCTAG1"
+            "href": "http://gehoper-api.b4a.run/api/empleados/6"
           }
-        }
+        },
+        "turnos": []
       },
       {
         "nombreCompleto": "Carlos Alberto Núñez Ríos",
-        "id" : "007CANRTAG1",
+        "id" : "7",
         "tag": 1,
         "contrato": {
           "numeroHorasSemanales": 20,
@@ -120,16 +126,17 @@
         },
         "_links": {
           "self": {
-            "href": "http://gehoper-api.b4a.run/api/empleados/007CANRTAG1"
+            "href": "http://gehoper-api.b4a.run/api/empleados/7"
           },
           "empleado": {
-            "href": "http://gehoper-api.b4a.run/api/empleados/007CANRTAG1"
+            "href": "http://gehoper-api.b4a.run/api/empleados/7"
           }
-        }
+        },
+        "turnos": []
       },
       {
         "nombreCompleto": "Sandra Beatriz Gómez Peña",
-        "id" : "008SBGPTAG1",
+        "id" : "8",
         "tag": 1,
         "contrato": {
           "numeroHorasSemanales": 20,
@@ -138,12 +145,13 @@
         },
         "_links": {
           "self": {
-            "href": "http://gehoper-api.b4a.run/api/empleados/008SBGPTAG1"
+            "href": "http://gehoper-api.b4a.run/api/empleados/8"
           },
           "empleado": {
-            "href": "http://gehoper-api.b4a.run/api/empleados/008SBGPTAG1"
+            "href": "http://gehoper-api.b4a.run/api/empleados/8"
           }
-        }
+        },
+        "turnos": []
       }
     ]
   }
