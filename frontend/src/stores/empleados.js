@@ -14,7 +14,7 @@ export const useEmpleadosStore = defineStore("empleados", {
       if (empleadosEnLocalStorage) {
         this.empleados = JSON.parse(empleadosEnLocalStorage)
       } else {
-        const varEmpleadosJson = await import('@/assets/json/empleados.json')
+        const varEmpleadosJson = await import('@/assets/json/empleados.json') // Solo cargaremos el JSON en caso de requerirlo
         this.empleados = varEmpleadosJson._embedded.empleados
       }
     },

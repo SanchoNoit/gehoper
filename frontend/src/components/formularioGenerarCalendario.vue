@@ -13,6 +13,7 @@ export default {
   methods: {
     rellenarFormulario() {
       // this.$emit("formulario-actualizado", nuevoObjetoPartido);
+      console.log("Estamos rellenando el calendario.")
     },
   },
 };
@@ -51,7 +52,7 @@ export default {
     </div>
 
     <div class="mb-3 form-check">
-      <button type="submit" class="btn btn-primary">Generar turnos</button>
+      <button type="submit" class="btn btn-primary" data-bs-dismiss="modal">Generar turnos</button>
       <button type="button" class="btn btn-secondary ms-3" data-bs-dismiss="modal">
         Cerrar
       </button>
