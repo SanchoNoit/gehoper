@@ -11,7 +11,7 @@
       <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
         <div class="navbar-nav">
           <router-link class="nav-link" to="calendarioBasico">Calendario</router-link>
-          <router-link class="nav-link" to="gestorJornadasCalendario">Gestor de turnos</router-link>
+          <router-link class="nav-link" to="gestorJornadasCalendario">Gestor de turnos y empleados</router-link>
         </div>
       </div>
     </div>

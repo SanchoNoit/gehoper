@@ -3,27 +3,26 @@ import FullCalendar from "@fullcalendar/vue3";
 import dayGridPlugin from "@fullcalendar/daygrid";
 import interactionPlugin from "@fullcalendar/interaction";
 import * as bootstrap from "bootstrap";
+import FormularioGenerarCalendario from "@/components/formularioGenerarCalendario.vue";
 import { mapActions, mapState } from "pinia";
 import moment from "moment";
 
 export default {
-  mounted() {
-  },
+  mounted() {},
 
   components: {
-    FullCalendar, // make the <FullCalendar> tag available
+    FullCalendar, FormularioGenerarCalendario
   },
   data: function () {
-
     return {
       calendarOptions: {
         plugins: [dayGridPlugin, interactionPlugin],
-        initialView: 'dayGridTwoWeek',
+        initialView: "dayGridTwoWeek",
         views: {
           dayGridTwoWeek: {
-          type: 'dayGrid',
-          duration: { weeks: 2 }
-          }
+            type: "dayGrid",
+            duration: { weeks: 2 },
+          },
         },
         dateClick: this.handleDateClick,
         events: [],
@@ -46,24 +45,39 @@ export default {
         keyboard: true,
       };
 
-      const myModalAlternative = new bootstrap.Modal(
+      const myModal = new bootstrap.Modal(
         "#modalInformacionJornada",
         options
       );
-      const myModalEl = document.getElementById("modalInformacionJornada");
 
-      myModalAlternative.show();
+      myModal.show();
     },
+
+    generarTurnos() {
+      let options = {
+        keyboard: true,
+      };
+
+      const myModal = new bootstrap.Modal(
+        "#modalAutogeneracionTurnos",
+        options
+      );
+
+      myModal.show();
+    }
   },
 };
 </script>
 
 <template>
+  <div class="container-flex text-center m-3 p-2">
+    <button class="btn btn-primary" @click="generarTurnos">Generar turnos</button>
+  </div>
   <div class="container">
     <FullCalendar :options="calendarOptions" />
   </div>
 
-  <!-- Modal -->
+  <!-- Modal de informacion de un dia particular-->
   <div
     class="modal fade"
     id="modalInformacionJornada"
@@ -85,7 +99,7 @@ export default {
           ></button>
         </div>
         <div class="modal-body">
-          <h2>Aquí va el BODY</h2>
+          <h1>Aquí va el BODY de los días particulares</h1>
         </div>
         <div class="modal-footer">
           <button
@@ -95,6 +109,34 @@ export default {
           >
             Close
           </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal de autogeneracion del calenario-->
+  <div
+    class="modal fade"
+    id="modalAutogeneracionTurnos"
+    tabindex="-1"
+    aria-labelledby="modalInformacionJornadaLabel"
+    aria-hidden="true"
+  >
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="modalInformacionJornadaLabel">
+            Generar turnos
+          </h1>
+          <button
+            type="button"
+            class="btn-close"
+            data-bs-dismiss="modal"
+            aria-label="Close"
+          ></button>
+        </div>
+        <div class="modal-body">
+          <FormularioGenerarCalendario></FormularioGenerarCalendario>
         </div>
       </div>
     </div>

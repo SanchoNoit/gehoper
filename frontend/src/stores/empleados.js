@@ -16,7 +16,6 @@ export const useEmpleadosStore = defineStore("empleados", {
       } else {
         const varEmpleadosJson = await import('@/assets/json/empleados.json')
         this.empleados = varEmpleadosJson._embedded.empleados
-        console.log(this.empleados)
       }
     },
 
