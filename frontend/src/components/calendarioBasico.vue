@@ -5,7 +5,7 @@ import interactionPlugin from "@fullcalendar/interaction";
 import * as bootstrap from "bootstrap";
 import FormularioGenerarCalendario from "@/components/formularioGenerarCalendario.vue";
 import { mapActions, mapState } from "pinia";
-import validacionTurnos from "@/assets/scripts/validacionTurnos";
+import evaluacionTurnos from "@/assets/scripts/evaluacionTurnos";
 import moment from "moment";
 
 export default {
