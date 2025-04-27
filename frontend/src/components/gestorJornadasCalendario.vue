@@ -1,6 +1,5 @@
 <script>
 import { mapActions, mapState } from "pinia";
-import { useJornadasStore } from "../stores/jornadas";
 import moment from "moment";
 
 export default {
