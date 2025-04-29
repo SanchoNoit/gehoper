@@ -39,7 +39,8 @@ export default {
     return codigoADevolver;
   },
 
-  // Este metodo devuelve si dado un array de turnos, toda la franja horaria esta cubierta por al menos un empelado
+  // Este metodo devuelve si dado un array de turnos, toda la franja horaria esta cubierta por al menos un empleado
+  // Este array supone que le enviamos el array de turnos ya filtrados para una fecha particular
   hay_Un_EmpleadoEnTodoMomento(arrayTurnos) {
     // Este array contiene 11 elementos, que son las 11 horas cubiertas en el dia.
     // 0:(10-11), 1:(11-12) ... 10(20-21)
@@ -68,7 +69,7 @@ export default {
       }
     }
 
-    const todasLasHorasTienenUnEmpleado = !arrayHorario.some((h) => h === 0);
+    const todasLasHorasTienenUnEmpleado = !(arrayHorario.some((h) => h === 0));
 
     return todasLasHorasTienenUnEmpleado;
   },
@@ -143,31 +144,25 @@ export default {
 
     if (arrayHorario[0] === 0 && arrayHorario[10] === 0) {
       codigosPropuestos.push('P8')
-    } else if (arrayHorario[4] === 0 && arrayHorario[6] === 0) {
-      codigosPropuestos.push('T8', 'M8', 'M6', 'T6')
     }
-    
-    if (arrayHorario[0] === 0 && arrayHorario[7] === 0) {
-      codigosPropuestos.push('M8')
-    }
-    
-    if (arrayHorario[0] === 0 && arrayHorario[5] === 0) {
-      codigosPropuestos.push('M6', 'M8')
-    }
-    
-    if (arrayHorario[0] === 0 && arrayHorario[3] === 0) {
+
+    if (arrayHorario[0] === 0) {
       codigosPropuestos.push('M4', 'M5', 'M6', 'M8')
     }
     
-    if (arrayHorario[10] === 0 && arrayHorario[3] === 0) {
-      codigosPropuestos.push('T8')
+    if (arrayHorario[4] === 0) {
+      codigosPropuestos.push('M5', 'M6', 'M8', 'T8')
     }
     
-    if (arrayHorario[10] === 0 && arrayHorario[5] === 0) {
-      codigosPropuestos.push('T6', 'T8')
+    if (arrayHorario[5] === 0) {
+      codigosPropuestos.push('M6', 'M8', 'T8', 'T6')
     }
     
-    if (arrayHorario[10] === 0 && arrayHorario[6] === 0) {
+    if (arrayHorario[6] === 0) {
+      codigosPropuestos.push('T8', 'T6', 'T5', 'M8')
+    }
+    
+    if (arrayHorario[10] === 0) {
       codigosPropuestos.push('T4', 'T5', 'T6', 'T8')
     }
 

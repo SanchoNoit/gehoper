@@ -1,4 +1,11 @@
 <script>
+import { mapState, mapActions } from "pinia";
+import { useEmpleadosStore } from "@/stores/empleados";
+import moment from "moment";
+import validacionDiaComoJornadaLaboral from "@/assets/scripts/validacionDiaComoJornadaLaboral";
+import evaluacionTurnos from "@/assets/scripts/evaluacionTurnos";
+import evaluacionEmpleados from "@/assets/scripts/evaluacionEmpleados";
+
 export default {
   emits: [],
   props: [],
@@ -10,10 +17,106 @@ export default {
     };
   },
 
+  computed: {
+    ...mapState(useEmpleadosStore, ["empleados"]),
+  },
+
   methods: {
-    rellenarFormulario() {
-      // this.$emit("formulario-actualizado", nuevoObjetoPartido);
-      console.log("Estamos rellenando el calendario.")
+    ...mapActions(useEmpleadosStore, ['agregarTurnoAEmpleado', 'agregarTurnosFijos']),
+
+    async rellenarFormulario() {
+      const fechaInicio = new Date(this.fechaInicialGeneracionTurnos);
+      const fechaFin = new Date(fechaInicio);
+      fechaFin.setDate(fechaFin.getDate() + this.numeroSemanasAGenerar * 7);
+
+      for (
+        let dia = new Date(fechaInicio);
+        dia < fechaFin;
+        dia.setDate(dia.getDate() + 1)
+      ) {
+        console.log(
+          `Generando turnos para dia ${dia.toLocaleDateString("es-ES")}`
+        );
+        const esDiaLaborable =
+          await validacionDiaComoJornadaLaboral.esDiaLaborable(new Date(dia));
+
+        // Se comprueba si es un día laborable
+        if (!esDiaLaborable) {
+          // console.log(
+          //   `El dia ${dia.toDateString()} se trata de dia festivo, y no se generan jornadas para este día.`
+          // );
+          continue;
+        }
+
+        // Se asignan los turnos fijos
+        this.agregarTurnosFijos(dia)
+
+        // Se comprueba que haya un TAG3 en todo momento. Se asignan TAG3 hasta que se valida la condicion.
+        const empleadosTag3 = this.empleados.filter((emp) => emp.tag === 3)
+        let arrayDeTurnosJornadaDeTag3 =  empleadosTag3.flatMap((empleado) => empleado.turnos)
+                                                       .filter(t => moment(t.fecha).isSame(new Date(dia), 'days'))
+
+        while (!evaluacionTurnos.hay_Un_EmpleadoEnTodoMomento(arrayDeTurnosJornadaDeTag3)) {
+          let arrayCodigosPropuestos = evaluacionTurnos.obtenerArrayCodigosDeTurnoPropuestoParaTag3(arrayDeTurnosJornadaDeTag3)
+          let turnoOptimo = evaluacionEmpleados.devolverTurnoOptimo(new Date(dia), arrayCodigosPropuestos, empleadosTag3)
+          if (typeof(turnoOptimo) !== null) {
+            this.agregarTurnoAEmpleado(turnoOptimo);
+          } else {
+            console.log('No se genera el turno optimo')
+            debugger;
+          }          
+          
+          arrayDeTurnosJornadaDeTag3 =  empleadosTag3.flatMap((empleado) => empleado.turnos)
+                                                         .filter(t => moment(t.fecha).isSame(dia, 'days'))
+        }
+
+        // Si es viernes o sábado, se asignan todos los empleados posibles
+        // if ((new Date(dia)).getDay() === 5 || (new Date(dia)).getDay() === 6) {
+        //   for (let emp of this.empleados) {
+        //     if(!emp.contrato.esReductor && !emp.contrato.esConciliador && !evaluacionEmpleados.estaEmpleadoAsignadoAEstaJornada(emp, new Date(dia))) {
+        //       let arrayCodigosPropuestos = 
+        //         evaluacionTurnos.obtenerArrayCodigosDeTurnoPropuestoParaTag3(arrayDeTurnosJornadaDeTag3).length > 0 
+        //         ? evaluacionTurnos.obtenerArrayCodigosDeTurnoPropuestoParaTag3(arrayDeTurnosJornadaDeTag3)
+        //         : ["M8", "M6", "M5", "M4", "T8", "T6", "T5", "T4"];
+        //       let turnoOptimo = evaluacionEmpleados.devolverTurnoOptimo(new Date(dia), arrayCodigosPropuestos, [emp])
+
+        //       if (typeof(turnoOptimo) !== null) {
+        //         this.agregarTurnoAEmpleado(turnoOptimo);
+        //       } else {
+        //         console.log('No se genera el turno optimo')
+        //        break;
+        //       }    
+        //     }
+        //   }
+        // }
+
+        // Se comprueba que hay dos empleados en todo momento. Se asignan empleados hasta que se valida la condición.
+        let arrayDeTurnosDeLaJornada =  this.empleados.flatMap((empleado) => empleado.turnos)
+                                           .filter(t => moment(t.fecha).isSame(new Date(dia), 'days'))
+
+        while (!evaluacionTurnos.hay_DosOMas_EmpleadosEnTodoMomento(arrayDeTurnosDeLaJornada)) {
+          let arrayCodigosPropuestos = evaluacionTurnos.obtenerArrayCodigosDeTurnoPropuesto(arrayDeTurnosDeLaJornada)
+
+          debugger
+          let turnoOptimo = evaluacionEmpleados.devolverTurnoOptimo(new Date(dia), arrayCodigosPropuestos, this.empleados)
+          if (typeof(turnoOptimo) !== null) {
+            this.agregarTurnoAEmpleado(turnoOptimo);
+          } else {
+            console.log('No se genera el turno optimo')
+            debugger;
+          }          
+          
+          arrayDeTurnosDeLaJornada =  this.empleados.flatMap((empleado) => empleado.turnos)
+                                                    .filter(t => moment(t.fecha).isSame(new Date(dia), 'days'))
+        }
+
+        this.empleados.flatMap(e => e.turnos).forEach(turno => {
+          if(moment(turno.fecha).isSame(new Date(dia), 'days')) {
+            console.log(`Turno asignado a ${turno.empleado.nombreCompleto} en formato ${turno.codigoTurno}`)
+          }
+        });
+        console.log(`¿La jornada es válida? ${evaluacionTurnos.esJornadaValida(this.empleados.flatMap(e => e.turnos).filter(t => moment(t.fecha).isSame(new Date(dia), 'days')))}`)
+      }
     },
   },
 };
@@ -52,8 +155,14 @@ export default {
     </div>
 
     <div class="mb-3 form-check">
-      <button type="submit" class="btn btn-primary" data-bs-dismiss="modal">Generar turnos</button>
-      <button type="button" class="btn btn-secondary ms-3" data-bs-dismiss="modal">
+      <button type="submit" class="btn btn-primary" data-bs-dismiss="modal">
+        Generar turnos
+      </button>
+      <button
+        type="button"
+        class="btn btn-secondary ms-3"
+        data-bs-dismiss="modal"
+      >
         Cerrar
       </button>
     </div>

@@ -7,9 +7,11 @@ export default {
       empleado: this.empleadoOptimo(empleados, fechaParametro),
     };
 
-    nuevoTurno.codigoTurno = this.definirCodigoTurnoParaEmpleado(nuevoTurno.empleado, codigosPropuestos)
+    if (nuevoTurno.empleado) {
+      nuevoTurno.codigoTurno = this.definirCodigoTurnoParaEmpleado(nuevoTurno.empleado, codigosPropuestos)
 
-    return nuevoTurno;
+       return nuevoTurno;
+    }
   },
 
   empleadoOptimo(empleados, fechaParametro) {
@@ -24,10 +26,14 @@ export default {
     empleadosFiltrados = empleadosFiltrados.filter((e) => !this.estaEmpleadoAsignadoAEstaJornada(e, fechaParametro))
 
     // Obtenemos la puntuación de cada empleado resultante, y nos quedamos con el empleado de mayor puntuación.
-
-    return empleadosFiltrados.reduce((mejor,actual) => {
+    if (empleadosFiltrados.length > 0) {
+      return empleadosFiltrados.reduce((mejor,actual) => {
         return this.obtenerPuntuacionEmpleado(actual) > this.obtenerPuntuacionEmpleado(mejor) ? actual : mejor;
-    })
+      })
+    } else {
+      console.warn('Nos hemos quedado sin empleados que proponer')
+      return null
+    }
   },
 
   trabajaMenosDeCincoJornadas(empleado, fecha) {
@@ -75,6 +81,8 @@ export default {
   definirCodigoTurnoParaEmpleado(empleado, codigosPropuestos) {
     const resultadoDivisionCincoJornadas = empleado.contrato.numeroHorasSemanales / 5;
     let codigoPropuesto;
+
+    debugger
 
     if (codigosPropuestos.some((c) => parseInt(c[1]) === resultadoDivisionCincoJornadas)) {
       codigoPropuesto = codigosPropuestos.find((c) => parseInt(c[1]) === resultadoDivisionCincoJornadas)
