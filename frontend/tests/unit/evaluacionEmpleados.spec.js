@@ -204,4 +204,12 @@ describe("evaluacionEmpleados", () => {
             .toBe(empleado5);
   });
 
+  it("Determina el codigo de turno optimo para un empleado", () => {
+    expect(evaluacionEmpleados.definirCodigoTurnoParaEmpleado(empleado1, ["P8", "M8", "M6", "M5", "M4", "T8", "T6", "T5", "T4"])).toBe("P8");
+    expect(evaluacionEmpleados.definirCodigoTurnoParaEmpleado(empleado1, ["M8", "M6", "M5", "M4", "T8", "T6", "T5", "T4"])).toBe("M8");
+    expect(evaluacionEmpleados.definirCodigoTurnoParaEmpleado(empleado6, ["P8", "T8", "T6", "T5", "T4"])).toBe("T4");
+    expect(evaluacionEmpleados.definirCodigoTurnoParaEmpleado(empleado6, ["M5", "M4", "T8", "T6", "T5", "T4"])).toBe("M4");
+    
+  });
+
 });
