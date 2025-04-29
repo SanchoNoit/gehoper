@@ -4,9 +4,6 @@ import moment from "moment";
 
 export default {
     async esDiaLaborable(fecha) {
-      console.log(`El dia ${moment(fecha).toLocaleString('es-ES')}`)
-      console.log(`¿Es domingo? ${this.esDomingo(fecha)}`)
-      console.log(`¿Es festivo local o autonomico? ${await this.esFestivoLocalOAutonomico(fecha)}`)
       return !this.esDomingo(fecha) && !(await (this.esFestivoLocalOAutonomico(fecha)))
     },
 
