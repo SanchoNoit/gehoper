@@ -29,90 +29,80 @@ export default {
       const fechaFin = new Date(fechaInicio);
       fechaFin.setDate(fechaFin.getDate() + this.numeroSemanasAGenerar * 7);
 
-      for (
-        let dia = new Date(fechaInicio);
-        dia < fechaFin;
-        dia.setDate(dia.getDate() + 1)
-      ) {
+      for (let dia = new Date(fechaInicio); dia < fechaFin; dia.setDate(dia.getDate() + 1)) {
         console.log(
           `Generando turnos para dia ${dia.toLocaleDateString("es-ES")}`
         );
-        const esDiaLaborable =
-          await validacionDiaComoJornadaLaboral.esDiaLaborable(new Date(dia));
+        // Se comprueba si es un día laborable, se salta si no lo es.
+          const esDiaLaborable = await validacionDiaComoJornadaLaboral.esDiaLaborable(new Date(dia));
+          if (!esDiaLaborable) {
+            // console.log(
+            //   `El dia ${dia.toDateString()} se trata de dia festivo, y no se generan jornadas para este día.`
+            // );
+            continue;
+          }
 
-        // Se comprueba si es un día laborable
-        if (!esDiaLaborable) {
-          // console.log(
-          //   `El dia ${dia.toDateString()} se trata de dia festivo, y no se generan jornadas para este día.`
-          // );
-          continue;
-        }
-
-        // Se asignan los turnos fijos
+        // Se asignan los turnos fijos de los empleados reductores o conciliadores
         this.agregarTurnosFijos(dia)
 
         // Se comprueba que haya un TAG3 en todo momento. Se asignan TAG3 hasta que se valida la condicion.
-        const empleadosTag3 = this.empleados.filter((emp) => emp.tag === 3)
-        let arrayDeTurnosJornadaDeTag3 =  empleadosTag3.flatMap((empleado) => empleado.turnos)
-                                                       .filter(t => moment(t.fecha).isSame(new Date(dia), 'days'))
+        let turnosDeJornadaDeTag3 = this.empleados.filter(e => e.tag === 3).flatMap(e => e.turnos)
+                                                                           .filter(t => moment(t.fecha).isSame(new Date(dia), 'days'))
 
-        while (!evaluacionTurnos.hay_Un_EmpleadoEnTodoMomento(arrayDeTurnosJornadaDeTag3)) {
-          let arrayCodigosPropuestos = evaluacionTurnos.obtenerArrayCodigosDeTurnoPropuestoParaTag3(arrayDeTurnosJornadaDeTag3)
-          let turnoOptimo = evaluacionEmpleados.devolverTurnoOptimo(new Date(dia), arrayCodigosPropuestos, empleadosTag3)
-          if (typeof(turnoOptimo) !== null) {
-            this.agregarTurnoAEmpleado(turnoOptimo);
-          } else {
-            console.log('No se genera el turno optimo')
-            debugger;
-          }          
-          
-          arrayDeTurnosJornadaDeTag3 =  empleadosTag3.flatMap((empleado) => empleado.turnos)
-                                                         .filter(t => moment(t.fecha).isSame(dia, 'days'))
+        while(!evaluacionTurnos.hay_Un_EmpleadoEnTodoMomento(turnosDeJornadaDeTag3)) {
+          // ¿Qué códigos de turno cubren la necesidad actual?
+          const arrayCodigosPropuestos = evaluacionTurnos.obtenerArrayCodigosDeTurnoPropuestoParaTag3(turnosDeJornadaDeTag3)
+
+          // ¿Qué empleados pueden cubrir los turnos indicados?
+          let empleadosQuePuedenRealizarTurnosPropuestos = 
+            evaluacionEmpleados.empleadosDisponibles(this.empleados, new Date(dia), arrayCodigosPropuestos).filter(e => e.tag === 3)
+
+          // De estos empleados, ¿cual es el más idóneo?
+          let empleadoPropuesto = evaluacionEmpleados.proponerEmpleadoEnBaseAPuntuacion(empleadosQuePuedenRealizarTurnosPropuestos)
+
+          // De los turnos propuestos, seleccionaremos el mínimo posible para el empleado propuesto.
+          let codigoPropuesto = evaluacionEmpleados.definirCodigoTurnoParaEmpleado(empleadoPropuesto, arrayCodigosPropuestos)
+
+          // Agregamos el turno propuesto al empleado
+          this.agregarTurnoAEmpleado(new Date(dia), codigoPropuesto, empleadoPropuesto)
+
+          turnosDeJornadaDeTag3 = this.empleados.filter(e => e.tag === 3).flatMap(e => e.turnos)
+                                                .filter(t => moment(t.fecha).isSame(new Date(dia), 'days')) 
+
         }
 
-        // Si es viernes o sábado, se asignan todos los empleados posibles
-        // if ((new Date(dia)).getDay() === 5 || (new Date(dia)).getDay() === 6) {
-        //   for (let emp of this.empleados) {
-        //     if(!emp.contrato.esReductor && !emp.contrato.esConciliador && !evaluacionEmpleados.estaEmpleadoAsignadoAEstaJornada(emp, new Date(dia))) {
-        //       let arrayCodigosPropuestos = 
-        //         evaluacionTurnos.obtenerArrayCodigosDeTurnoPropuestoParaTag3(arrayDeTurnosJornadaDeTag3).length > 0 
-        //         ? evaluacionTurnos.obtenerArrayCodigosDeTurnoPropuestoParaTag3(arrayDeTurnosJornadaDeTag3)
-        //         : ["M8", "M6", "M5", "M4", "T8", "T6", "T5", "T4"];
-        //       let turnoOptimo = evaluacionEmpleados.devolverTurnoOptimo(new Date(dia), arrayCodigosPropuestos, [emp])
+        // Asignamos turnos hasta completar que una jornada está cubierta
+        let turnosDeJornada = this.empleados.flatMap(e => e.turnos)
+                                            .filter(t => moment(t.fecha).isSame(new Date(dia), 'days'))
 
-        //       if (typeof(turnoOptimo) !== null) {
-        //         this.agregarTurnoAEmpleado(turnoOptimo);
-        //       } else {
-        //         console.log('No se genera el turno optimo')
-        //        break;
-        //       }    
-        //     }
-        //   }
-        // }
+        while(!evaluacionTurnos.hay_DosOMas_EmpleadosEnTodoMomento(turnosDeJornada)) {
+          // ¿Qué códigos de turno cubren la necesidad actual?
+          const arrayCodigosPropuestos = evaluacionTurnos.obtenerArrayCodigosDeTurnoPropuestoParaCubrirDosEmpleados(turnosDeJornada)
 
-        // Se comprueba que hay dos empleados en todo momento. Se asignan empleados hasta que se valida la condición.
-        let arrayDeTurnosDeLaJornada =  this.empleados.flatMap((empleado) => empleado.turnos)
-                                           .filter(t => moment(t.fecha).isSame(new Date(dia), 'days'))
+          // ¿Qué empleados pueden cubrir los turnos indicados?
+          let empleadosQuePuedenRealizarTurnosPropuestos = 
+            evaluacionEmpleados.empleadosDisponibles(this.empleados, new Date(dia), arrayCodigosPropuestos)
 
-        while (!evaluacionTurnos.hay_DosOMas_EmpleadosEnTodoMomento(arrayDeTurnosDeLaJornada)) {
-          let arrayCodigosPropuestos = evaluacionTurnos.obtenerArrayCodigosDeTurnoPropuesto(arrayDeTurnosDeLaJornada)
+          // De estos empleados, ¿cual es el más idóneo?
+          let empleadoPropuesto = evaluacionEmpleados.proponerEmpleadoEnBaseAPuntuacion(empleadosQuePuedenRealizarTurnosPropuestos)
+
+          // De los turnos propuestos, seleccionaremos el mínimo posible para el empleado propuesto.
+          let codigoPropuesto = evaluacionEmpleados.definirCodigoTurnoParaEmpleado(empleadoPropuesto, arrayCodigosPropuestos)
 
           debugger
-          let turnoOptimo = evaluacionEmpleados.devolverTurnoOptimo(new Date(dia), arrayCodigosPropuestos, this.empleados)
-          if (typeof(turnoOptimo) !== null) {
-            this.agregarTurnoAEmpleado(turnoOptimo);
-          } else {
-            console.log('No se genera el turno optimo')
-            debugger;
-          }          
-          
-          arrayDeTurnosDeLaJornada =  this.empleados.flatMap((empleado) => empleado.turnos)
-                                                    .filter(t => moment(t.fecha).isSame(new Date(dia), 'days'))
+          // Agregamos el turno propuesto al empleado
+          this.agregarTurnoAEmpleado(new Date(dia), codigoPropuesto, empleadoPropuesto)
+
+          turnosDeJornada = this.empleados.flatMap(e => e.turnos)
+                                          .filter(t => moment(t.fecha).isSame(new Date(dia), 'days')) 
+
         }
+
+        // Se comprueba que hay dos empleados en todo momento. Se asignan empleados hasta que se valida la condición.
 
         this.empleados.flatMap(e => e.turnos).forEach(turno => {
           if(moment(turno.fecha).isSame(new Date(dia), 'days')) {
-            console.log(`Turno asignado a ${turno.empleado.nombreCompleto} en formato ${turno.codigoTurno}`)
+            console.log(`Turno asignado a ${turno.empleado.nombreCompleto}, TAG ${turno.empleado.tag} en formato ${turno.codigoTurno}, ha trabajado ${evaluacionEmpleados.calcularHorasTrabajadasEnLaUltimaSemana(turno.empleado, turno.fecha)} horas en la ultima semana, de un contrato de ${turno.empleado.contrato.numeroHorasSemanales}`)
           }
         });
         console.log(`¿La jornada es válida? ${evaluacionTurnos.esJornadaValida(this.empleados.flatMap(e => e.turnos).filter(t => moment(t.fecha).isSame(new Date(dia), 'days')))}`)

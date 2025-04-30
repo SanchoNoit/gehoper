@@ -1,4 +1,5 @@
-import moment from 'moment'
+import moment from "moment";
+import funcionesAuxiliares from "@/assets/scripts/funcionesAuxiliares";
 
 export default {
   devolverTurnoOptimo(fechaParametro, codigosPropuestos, empleados) {
@@ -8,31 +9,59 @@ export default {
     };
 
     if (nuevoTurno.empleado) {
-      nuevoTurno.codigoTurno = this.definirCodigoTurnoParaEmpleado(nuevoTurno.empleado, codigosPropuestos)
-
-       return nuevoTurno;
+      nuevoTurno.codigoTurno = this.definirCodigoTurnoParaEmpleado(
+        nuevoTurno.empleado,
+        codigosPropuestos
+      );
+      return nuevoTurno;
     }
   },
 
-  empleadoOptimo(empleados, fechaParametro) {
-    // Cribamos a los que no pueden asignarse
+  empleadosDisponibles(empleados, fechaParametro, codigosTurnoPropuestos) {
+    // Cribamos a los empleados que pueden asignarse
     // 1. Reductores o conciliadores
-    let empleadosFiltrados = empleados.filter((e) => !e.contrato.esReductor && !e.contrato.esConciliador)
+    let empleadosFiltrados = empleados.filter(
+      (e) => !e.contrato.esReductor && !e.contrato.esConciliador
+    );
 
     // 2. Han trabajado menos de 5 turnos en la última semana
-    empleadosFiltrados = empleadosFiltrados.filter((e) => this.trabajaMenosDeCincoJornadas(e, fechaParametro))
+    empleadosFiltrados = empleadosFiltrados.filter((e) =>
+      this.trabajaMenosDeCincoJornadas(e, fechaParametro)
+    );
 
     // 3. No está asignado a esta jornada laboral
-    empleadosFiltrados = empleadosFiltrados.filter((e) => !this.estaEmpleadoAsignadoAEstaJornada(e, fechaParametro))
+    empleadosFiltrados = empleadosFiltrados.filter(
+      (e) => !this.estaEmpleadoAsignadoAEstaJornada(e, fechaParametro)
+    );
 
-    // Obtenemos la puntuación de cada empleado resultante, y nos quedamos con el empleado de mayor puntuación.
-    if (empleadosFiltrados.length > 0) {
-      return empleadosFiltrados.reduce((mejor,actual) => {
-        return this.obtenerPuntuacionEmpleado(actual) > this.obtenerPuntuacionEmpleado(mejor) ? actual : mejor;
-      })
+    // 4. Alguno de sus turnos posibles se encuentran entre los propuestos
+    empleadosFiltrados = empleadosFiltrados.filter((e) =>
+      this.turnosPropuestosEntreLosPosibles(e, codigosTurnoPropuestos)
+    );
+
+    return empleadosFiltrados;
+  },
+
+  proponerEmpleadoEnBaseAPuntuacion(empleados) {
+    if (empleados.length > 0) {
+      return empleados.reduce((mejor, actual) => {
+        if (
+          this.obtenerPuntuacionEmpleado(actual) ===
+            this.obtenerPuntuacionEmpleado(mejor) &&
+          mejor.tag === 3
+        ) {
+          return actual;
+        } else {
+          return this.obtenerPuntuacionEmpleado(actual) >
+            this.obtenerPuntuacionEmpleado(mejor)
+            ? actual
+            : mejor;
+        }
+      });
     } else {
-      console.warn('Nos hemos quedado sin empleados que proponer')
-      return null
+      debugger;
+      console.warn("Nos hemos quedado sin empleados que proponer");
+      return null;
     }
   },
 
@@ -43,23 +72,29 @@ export default {
     const NUMERO_JORNADAS_MAXIMAS = 5;
 
     for (let i = 0; i < NUMERO_JORNADAS_A_REVISAR; i++) {
-        let jornadaEstudiada = moment(fecha).subtract(i, 'days')
+      let jornadaEstudiada = moment(fecha).subtract(i, "days");
 
-        if (empleado.turnos.some((t) => moment(t.fecha).isSame(jornadaEstudiada, 'days'))) {
-            numeroJornadasTrabajadas++;
-        }
+      if (
+        empleado.turnos.some((t) =>
+          moment(t.fecha).isSame(jornadaEstudiada, "days")
+        )
+      ) {
+        numeroJornadasTrabajadas++;
+      }
 
-        if (numeroJornadasTrabajadas >= NUMERO_JORNADAS_MAXIMAS) {
-            trabajoMenosDeCincoJornadas = false;
-            break;
-        }
+      if (numeroJornadasTrabajadas >= NUMERO_JORNADAS_MAXIMAS) {
+        trabajoMenosDeCincoJornadas = false;
+        break;
+      }
     }
 
     return trabajoMenosDeCincoJornadas;
   },
 
   estaEmpleadoAsignadoAEstaJornada(empleado, fechaParametro) {
-    return empleado.turnos.some((t) => moment(t.fecha).isSame(fechaParametro, 'days'))
+    return empleado.turnos.some((t) =>
+      moment(t.fecha).isSame(fechaParametro, "days")
+    );
   },
 
   obtenerPuntuacionEmpleado(empleado, fechaParametro) {
@@ -67,35 +102,78 @@ export default {
     const NUMERO_JORNADAS_A_REVISAR = 7;
 
     for (let i = 0; i < NUMERO_JORNADAS_A_REVISAR; i++) {
-        let jornadaEstudiada = moment(fechaParametro).subtract(i, 'days')
+      let jornadaEstudiada = moment(fechaParametro).subtract(i, "days");
 
-        if (empleado.turnos.some((t) => moment(t.fecha).isSame(jornadaEstudiada, 'day'))) {
-            numeroHorasTrabajadas += parseInt(empleado.turnos.filter((t) => moment(t.fecha).isSame(jornadaEstudiada, 'day'))
-                                                    .map(t => parseInt(t.codigoTurno.replace(/\D/g, ''), 10)))
-        }
+      if (
+        empleado.turnos.some((t) =>
+          moment(t.fecha).isSame(jornadaEstudiada, "day")
+        )
+      ) {
+        numeroHorasTrabajadas += parseInt(
+          empleado.turnos
+            .filter((t) => moment(t.fecha).isSame(jornadaEstudiada, "day"))
+            .map((t) => parseInt(t.codigoTurno.replace(/\D/g, ""), 10))
+        );
+      }
     }
 
-    return (empleado.contrato.numeroHorasSemanales / numeroHorasTrabajadas)
+    return empleado.contrato.numeroHorasSemanales / numeroHorasTrabajadas;
+  },
+
+  turnosPropuestosEntreLosPosibles(empleado, codigosTurnoPropuestos) {
+    return funcionesAuxiliares.compartenElementoDosArray(
+      empleado.turnosPosibles,
+      codigosTurnoPropuestos
+    );
   },
 
   definirCodigoTurnoParaEmpleado(empleado, codigosPropuestos) {
-    const resultadoDivisionCincoJornadas = empleado.contrato.numeroHorasSemanales / 5;
-    let codigoPropuesto;
+    let codigoADevolver;
 
-    debugger
+    let codigosComunesEntrePosiblesYPropuestos = codigosPropuestos.filter(
+      (cod) => empleado.turnosPosibles.includes(cod)
+    );
 
-    if (codigosPropuestos.some((c) => parseInt(c[1]) === resultadoDivisionCincoJornadas)) {
-      codigoPropuesto = codigosPropuestos.find((c) => parseInt(c[1]) === resultadoDivisionCincoJornadas)
-    } else {
-      codigoPropuesto = codigosPropuestos.reduce((min, actual) => {
+    codigoADevolver = codigosComunesEntrePosiblesYPropuestos.reduce(
+      (min, actual) => {
         const numeroMenor = parseInt(min.slice(1));
         const numeroActual = parseInt(actual.slice(1));
-        return numeroActual < numeroMenor ? actual : min;
-      });
-      
+        const tipoTurnoActual = actual[0];
+        const tipoTurnoMinimo = min[0];
+
+        if (numeroMenor === numeroActual && tipoTurnoActual === "T") {
+          return actual;
+        } else {
+          return numeroActual > numeroMenor ? actual : min;
+        }
+      }
+    );
+
+    // TODO: Algoritmizar la asignacion de turno por defecto
+    return codigoADevolver;
+  },
+
+  calcularHorasTrabajadasEnLaUltimaSemana(empleado, fecha) {
+    let numeroHorasTrabajadas = 0;
+    const NUMERO_JORNADAS_A_REVISAR = 7;
+    const NUMERO_JORNADAS_MAXIMAS = 5;
+
+    for (let i = 0; i < NUMERO_JORNADAS_A_REVISAR; i++) {
+      let jornadaEstudiada = moment(fecha).subtract(i, "days");
+
+      if (
+        empleado.turnos.some((t) =>
+          moment(t.fecha).isSame(jornadaEstudiada, "days")
+        )
+      ) {
+        numeroHorasTrabajadas += parseInt(
+          empleado.turnos.find((t) =>
+            moment(t.fecha).isSame(jornadaEstudiada, "days")
+          ).codigoTurno[1]
+        );
+      }
     }
 
-    return codigoPropuesto;
-  }
-
+    return numeroHorasTrabajadas;
+  },
 };

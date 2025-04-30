@@ -69,7 +69,7 @@ export default {
       }
     }
 
-    const todasLasHorasTienenUnEmpleado = !(arrayHorario.some((h) => h === 0));
+    const todasLasHorasTienenUnEmpleado = !arrayHorario.some((h) => h === 0);
 
     return todasLasHorasTienenUnEmpleado;
   },
@@ -111,7 +111,9 @@ export default {
 
   recuperarArrayHorasCubiertasPorTag3(arrayDeTurnosDeJornada) {
     const arrayHorario = new Array(11).fill(0);
-    let arrayTurnosTag3 = arrayDeTurnosDeJornada.filter((t) => t.empleado.tag === 3)
+    let arrayTurnosTag3 = arrayDeTurnosDeJornada.filter(
+      (t) => t.empleado.tag === 3
+    );
 
     for (let turno of arrayTurnosTag3) {
       const franjaDelTurno = turno.codigoTurno[0];
@@ -139,31 +141,33 @@ export default {
   },
 
   obtenerArrayCodigosDeTurnoPropuestoParaTag3(arrayDeTurnosDeJornada) {
-    const arrayHorario = this.recuperarArrayHorasCubiertasPorTag3(arrayDeTurnosDeJornada)
+    const arrayHorario = this.recuperarArrayHorasCubiertasPorTag3(
+      arrayDeTurnosDeJornada
+    );
     let codigosPropuestos = [];
 
     if (arrayHorario[0] === 0 && arrayHorario[10] === 0) {
-      codigosPropuestos.push('P8')
+      codigosPropuestos.push("P8");
     }
 
     if (arrayHorario[0] === 0) {
-      codigosPropuestos.push('M4', 'M5', 'M6', 'M8')
+      codigosPropuestos.push("M4", "M5", "M6", "M8");
     }
-    
+
     if (arrayHorario[4] === 0) {
-      codigosPropuestos.push('M5', 'M6', 'M8', 'T8')
+      codigosPropuestos.push("M5", "M6", "M8", "T8");
     }
-    
+
     if (arrayHorario[5] === 0) {
-      codigosPropuestos.push('M6', 'M8', 'T8', 'T6')
+      codigosPropuestos.push("M6", "M8", "T8", "T6");
     }
-    
+
     if (arrayHorario[6] === 0) {
-      codigosPropuestos.push('T8', 'T6', 'T5', 'M8')
+      codigosPropuestos.push("T8", "T6", "T5", "M8");
     }
-    
+
     if (arrayHorario[10] === 0) {
-      codigosPropuestos.push('T4', 'T5', 'T6', 'T8')
+      codigosPropuestos.push("T4", "T5", "T6", "T8");
     }
 
     return [...new Set(codigosPropuestos)];
@@ -197,41 +201,41 @@ export default {
     return arrayHorario;
   },
 
-  obtenerArrayCodigosDeTurnoPropuesto(arrayDeTurnosDeJornada) {
-    const arrayHorario = this.recuperarArrayHorasCubiertasPorNumeroEmpleados(arrayDeTurnosDeJornada)
+  obtenerArrayCodigosDeTurnoPropuestoParaCubrirDosEmpleados(
+    arrayDeTurnosDeJornada
+  ) {
+    const arrayHorario = this.recuperarArrayHorasCubiertasPorNumeroEmpleados(
+      arrayDeTurnosDeJornada
+    );
     let codigosPropuestos = [];
+    // La mañana está cubierta si hay al menos 2 empleados desde arrayHorario[0] hasta arrayHorario[4]
+    // let manhanaCubierta = arrayHorario.filter(numEmpl => numEmpl >= 2 && ).length === 4
+    // let tardeCubierta =
 
-    if (arrayHorario[0] === 0 && arrayHorario[10] === 0) {
-      codigosPropuestos.push('P8')
-    } else if (arrayHorario[4] < 2 && arrayHorario[6] < 2) {
-      codigosPropuestos.push('T8', 'M8', 'M6', 'T6')
+    if (arrayHorario[0] < 2 && arrayHorario[4] > 2) {
+      codigosPropuestos.push("M4", "M5", "M6", "M8");
+    } else if (arrayHorario[0] < 2 && arrayHorario[5] > 2) {
+      codigosPropuestos.push("M5", "M6", "M8");
+    } else if (arrayHorario[0] < 2 && arrayHorario[6] > 2) {
+      codigosPropuestos.push("M6", "M8");
+    } else {
+      codigosPropuestos.push("M8");
     }
-    
-    if (arrayHorario[0] < 2 && arrayHorario[7] < 2) {
-      codigosPropuestos.push('M8')
+
+    if (arrayHorario[10] < 2 && arrayHorario[6] > 2) {
+      codigosPropuestos.push("T4", "T5", "T6", "T8");
+    } else if (arrayHorario[10] < 2 && arrayHorario[5] > 2) {
+      codigosPropuestos.push("T5", "T6", "T8");
+    } else if (arrayHorario[10] < 2 && arrayHorario[4] > 2) {
+      codigosPropuestos.push("T6", "T8");
+    } else {
+      codigosPropuestos.push("T8");
     }
-    
-    if (arrayHorario[0] < 2 && arrayHorario[5] < 2) {
-      codigosPropuestos.push('M6', 'M8')
-    }
-    
-    if (arrayHorario[0] < 2 && arrayHorario[3] < 2) {
-      codigosPropuestos.push('M4', 'M5', 'M6', 'M8')
-    }
-    
-    if (arrayHorario[10] < 2 && arrayHorario[3] < 2) {
-      codigosPropuestos.push('T8')
-    }
-    
-    if (arrayHorario[10] < 2 && arrayHorario[5] < 2) {
-      codigosPropuestos.push('T6', 'T8')
-    }
-    
-    if (arrayHorario[10] < 2 && arrayHorario[6] < 2) {
-      codigosPropuestos.push('T4', 'T5', 'T6', 'T8')
+
+    if (arrayHorario[0] < 2 && arrayHorario[10] < 2) {
+      codigosPropuestos.push("P8");
     }
 
     return [...new Set(codigosPropuestos)];
   },
-
 };

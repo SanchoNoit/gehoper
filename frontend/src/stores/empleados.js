@@ -1,9 +1,10 @@
 import { defineStore } from "pinia";
+import moment from "moment";
 import evaluacionEmpleados from "../assets/scripts/evaluacionEmpleados";
 
 export const useEmpleadosStore = defineStore("empleados", {
   state: () => ({
-    empleados: []
+    empleados: [],
   }),
 
   getters: {},
@@ -11,59 +12,78 @@ export const useEmpleadosStore = defineStore("empleados", {
   actions: {
     // Se chequea si la lista de empleados se encuentra en el localStorage. Si está, se carga en el store. Si no está, se genera desde el JSON del proyecto.
     async cargarEmpleados() {
-      const empleadosEnLocalStorage = localStorage.getItem('empleados')
+      const empleadosEnLocalStorage = localStorage.getItem("empleados");
       if (empleadosEnLocalStorage) {
-        this.empleados = JSON.parse(empleadosEnLocalStorage)
+        this.empleados = JSON.parse(empleadosEnLocalStorage);
       } else {
-        const varEmpleadosJson = await import('@/assets/json/empleados.json') // Solo cargaremos el JSON en caso de requerirlo
-        this.empleados = varEmpleadosJson._embedded.empleados
+        const varEmpleadosJson = await import("@/assets/json/empleados.json"); // Solo cargaremos el JSON en caso de requerirlo
+        this.empleados = varEmpleadosJson._embedded.empleados;
       }
     },
 
     // Agrega un turno a un empleado
-    async agregarTurnoAEmpleado(turno) {
-      const empleadoAsignado = this.empleados.find(e => e.id === turno.empleado.id);
+    async agregarTurnoAEmpleado(
+      fechaParametro,
+      codigoTurnoParametro,
+      empleadoParametro
+    ) {
+      const empleadoAsignado = this.empleados.find(
+        (e) => e.id === empleadoParametro.id
+      );
 
       if (empleadoAsignado) {
-        empleadoAsignado.turnos.push(turno);
+        // TODO: Agregar setters a turnos para agregar estos turnos
+        empleadoAsignado.turnos.push({
+          fecha: fechaParametro,
+          codigoTurno: codigoTurnoParametro,
+          empleado: empleadoAsignado,
+        });
       } else {
-        console.error(`Se ha intentado agregar al empleado del turno ${turno} pero no se encuentra`)
+        console.error(
+          `Se ha intentado agregar al empleado ${empleadoParametro} pero no se encuentra`
+        );
       }
     },
 
     // Agrega turnos para empleados de turno fijo
-    async agregarTurnosFijos(fecha) {
-      let empleadosReductores = this.empleados.filter((emp) => emp.contrato.esReductor)
-      if ((new Date(fecha)).getDay() !== 6) {
-        for (let emp of empleadosReductores) {
-          if (!evaluacionEmpleados.estaEmpleadoAsignadoAEstaJornada(emp, fecha)) {
-            this.agregarTurnoAEmpleado({
-              fecha: fecha,
-              empleado: emp,
-              codigoTurno: "M" + emp.contrato.numeroHorasSemanales / 5
-            })
+    agregarTurnosFijos(fecha) {
+      // let empleadosReductores = this.empleados.filter(
+      //   (emp) => emp.contrato.esReductor
+      // );
+      if (moment(new Date(fecha)).day() !== 6) {
+        for (let emp of this.empleados.filter(
+          (emp) => emp.contrato.esReductor
+        )) {
+          if (
+            !evaluacionEmpleados.estaEmpleadoAsignadoAEstaJornada(emp, fecha)
+          ) {
+            this.agregarTurnoAEmpleado(fecha, emp.turnosPosibles[0], emp);
           }
         }
       }
 
-      let empleadosConciliadores = this.empleados.filter((emp) => emp.contrato.esConciliador)
-        for (let emp of empleadosConciliadores) {
-          if (!evaluacionEmpleados.estaEmpleadoAsignadoAEstaJornada(emp, fecha)) {
-            let codigoTurnoAAsignar = (new Date(fecha)).getDay() === 6 ? "M8" : "P8";
+      // let empleadosConciliadores = this.empleados.filter(
+      //   (emp) => emp.contrato.esConciliador
+      // );
+      for (let emp of this.empleados.filter(
+        (emp) => emp.contrato.esConciliador
+      )) {
+        debugger;
+        if (!evaluacionEmpleados.estaEmpleadoAsignadoAEstaJornada(emp, fecha)) {
+          debugger;
+          let codigoTurnoAAsignar =
+            moment(fecha).day() === 6
+              ? emp.turnosPosibles.find((t) => t[0] === "M")
+              : emp.turnosPosibles.find((t) => t[0] === "P");
 
-            this.agregarTurnoAEmpleado({
-              fecha: fecha,
-              empleado: emp,
-              codigoTurno: codigoTurnoAAsignar
-            })
-          }
+          this.agregarTurnoAEmpleado(fecha, codigoTurnoAAsignar, emp);
         }
-
+      }
     },
 
     // Guarda en el localStorage los empleados cada vez que se modifica el objeto empleados.
     guardarEmpleadosEnLocalStorage() {
-      localStorage.setItem('empleados', JSON.stringify(this.empleados));
-    }
+      localStorage.setItem("empleados", JSON.stringify(this.empleados));
+    },
   },
 });

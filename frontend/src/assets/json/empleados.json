@@ -3,7 +3,7 @@
     "empleados": [
       {
         "nombreCompleto": "Juan José Aguilar López",
-        "id" : "1",
+        "id": "1",
         "tag": 3,
         "contrato": {
           "numeroHorasSemanales": 40,
@@ -18,11 +18,12 @@
             "href": "http://gehoper-api.b4a.run/api/empleados/1"
           }
         },
-        "turnos": []
+        "turnos": [],
+        "turnosPosibles": ["P8", "M8"]
       },
       {
         "nombreCompleto": "Ana María Torres Díaz",
-        "id" : "2",
+        "id": "2",
         "tag": 3,
         "contrato": {
           "numeroHorasSemanales": 40,
@@ -37,11 +38,12 @@
             "href": "http://gehoper-api.b4a.run/api/empleados/2"
           }
         },
-        "turnos": []
+        "turnos": [],
+        "turnosPosibles": ["P8", "M8", "T8"]
       },
       {
         "nombreCompleto": "Luis Fernando Márquez Ruiz",
-        "id" : "3",
+        "id": "3",
         "tag": 3,
         "contrato": {
           "numeroHorasSemanales": 40,
@@ -56,11 +58,12 @@
             "href": "http://gehoper-api.b4a.run/api/empleados/3"
           }
         },
-        "turnos": []
+        "turnos": [],
+        "turnosPosibles": ["P8", "M8", "T8"]
       },
       {
         "nombreCompleto": "María del Carmen Soto Vega",
-        "id" : "4",
+        "id": "4",
         "tag": 3,
         "contrato": {
           "numeroHorasSemanales": 30,
@@ -75,11 +78,12 @@
             "href": "http://gehoper-api.b4a.run/api/empleados/4"
           }
         },
-        "turnos": []
+        "turnos": [],
+        "turnosPosibles": ["P8", "M8", "T8", "M6", "T6"]
       },
       {
         "nombreCompleto": "Pedro Ignacio Rivera León",
-        "id" : "5",
+        "id": "5",
         "tag": 1,
         "contrato": {
           "numeroHorasSemanales": 40,
@@ -94,11 +98,12 @@
             "href": "http://gehoper-api.b4a.run/api/empleados/5"
           }
         },
-        "turnos": []
+        "turnos": [],
+        "turnosPosibles": ["P8", "M8", "T8"]
       },
       {
         "nombreCompleto": "Laura Jiménez Castro",
-        "id" : "6",
+        "id": "6",
         "tag": 1,
         "contrato": {
           "numeroHorasSemanales": 20,
@@ -113,11 +118,12 @@
             "href": "http://gehoper-api.b4a.run/api/empleados/6"
           }
         },
-        "turnos": []
+        "turnos": [],
+        "turnosPosibles": ["P8", "M4", "T4", "M6", "T6", "M5", "T5"]
       },
       {
         "nombreCompleto": "Carlos Alberto Núñez Ríos",
-        "id" : "7",
+        "id": "7",
         "tag": 1,
         "contrato": {
           "numeroHorasSemanales": 20,
@@ -132,11 +138,12 @@
             "href": "http://gehoper-api.b4a.run/api/empleados/7"
           }
         },
-        "turnos": []
+        "turnos": [],
+        "turnosPosibles": ["P8", "M4", "T4", "M6", "T6", "M5", "T5"]
       },
       {
         "nombreCompleto": "Sandra Beatriz Gómez Peña",
-        "id" : "8",
+        "id": "8",
         "tag": 1,
         "contrato": {
           "numeroHorasSemanales": 20,
@@ -151,7 +158,8 @@
             "href": "http://gehoper-api.b4a.run/api/empleados/8"
           }
         },
-        "turnos": []
+        "turnos": [],
+        "turnosPosibles": ["M4"]
       }
     ]
   }
