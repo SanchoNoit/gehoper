@@ -42,9 +42,9 @@ export default {
     return empleadosFiltrados;
   },
 
-  proponerEmpleadoEnBaseAPuntuacion(empleados) {
+  proponerEmpleadoEnBaseAPuntuacion(empleados) { 
     if (empleados.length > 0) {
-      return empleados.reduce((mejor, actual) => {
+      const empleadoPropuesto = empleados.reduce((mejor, actual) => {
         if (
           this.obtenerPuntuacionEmpleado(actual) ===
             this.obtenerPuntuacionEmpleado(mejor) &&
@@ -57,9 +57,12 @@ export default {
             ? actual
             : mejor;
         }
-      });
+      }
+    );
+
+    return empleadoPropuesto;
+
     } else {
-      debugger;
       console.warn("Nos hemos quedado sin empleados que proponer");
       return null;
     }
@@ -135,6 +138,30 @@ export default {
     );
 
     codigoADevolver = codigosComunesEntrePosiblesYPropuestos.reduce(
+      (max, actual) => {
+        const numeroMenor = parseInt(max.slice(1));
+        const numeroActual = parseInt(actual.slice(1));
+        const tipoTurnoActual = actual[0];
+        const tipoTurnoMinimo = max[0];
+
+        if (numeroMenor === numeroActual && tipoTurnoActual === "T") {
+          return actual;
+        } else {
+          return numeroActual > numeroMenor ? actual : max;
+        }
+      }
+    );
+
+    // TODO: Algoritmizar la asignacion de turno por defecto
+    return codigoADevolver;
+  },
+
+  definirMinimoTurnoPosibleEntreLosDisponibles(empleado, codigosPropuestos) {
+    let codigosComunesEntrePosiblesYPropuestos = codigosPropuestos.filter(
+      (cod) => empleado.turnosPosibles.includes(cod)
+    );
+
+    let codigoADevolver = codigosComunesEntrePosiblesYPropuestos.reduce(
       (min, actual) => {
         const numeroMenor = parseInt(min.slice(1));
         const numeroActual = parseInt(actual.slice(1));
@@ -144,7 +171,7 @@ export default {
         if (numeroMenor === numeroActual && tipoTurnoActual === "T") {
           return actual;
         } else {
-          return numeroActual > numeroMenor ? actual : min;
+          return numeroActual < numeroMenor ? actual : min;
         }
       }
     );

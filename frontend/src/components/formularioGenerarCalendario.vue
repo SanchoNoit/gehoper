@@ -7,7 +7,7 @@ import evaluacionTurnos from "@/assets/scripts/evaluacionTurnos";
 import evaluacionEmpleados from "@/assets/scripts/evaluacionEmpleados";
 
 export default {
-  emits: [],
+  emits: ['formulario-actualizado'],
   props: [],
 
   data() {
@@ -22,7 +22,7 @@ export default {
   },
 
   methods: {
-    ...mapActions(useEmpleadosStore, ['agregarTurnoAEmpleado', 'agregarTurnosFijos']),
+    ...mapActions(useEmpleadosStore, ['agregarTurnoAEmpleado', 'agregarTurnosFijos', 'guardarEmpleadosEnLocalStorage']),
 
     async rellenarFormulario() {
       const fechaInicio = new Date(this.fechaInicialGeneracionTurnos);
@@ -59,7 +59,7 @@ export default {
 
           // De estos empleados, ¿cual es el más idóneo?
           let empleadoPropuesto = evaluacionEmpleados.proponerEmpleadoEnBaseAPuntuacion(empleadosQuePuedenRealizarTurnosPropuestos)
-
+          
           // De los turnos propuestos, seleccionaremos el mínimo posible para el empleado propuesto.
           let codigoPropuesto = evaluacionEmpleados.definirCodigoTurnoParaEmpleado(empleadoPropuesto, arrayCodigosPropuestos)
 
@@ -89,7 +89,6 @@ export default {
           // De los turnos propuestos, seleccionaremos el mínimo posible para el empleado propuesto.
           let codigoPropuesto = evaluacionEmpleados.definirCodigoTurnoParaEmpleado(empleadoPropuesto, arrayCodigosPropuestos)
 
-          debugger
           // Agregamos el turno propuesto al empleado
           this.agregarTurnoAEmpleado(new Date(dia), codigoPropuesto, empleadoPropuesto)
 
@@ -97,16 +96,35 @@ export default {
                                           .filter(t => moment(t.fecha).isSame(new Date(dia), 'days')) 
 
         }
+        
+        // Si es viernes o sábado, rellenamos todos los empleados posibles.
+        if (dia.getDay() === 5 || dia.getDay() === 6) {
+          // Los turnos posibles, en este punto, serían todos excepto el turno partido, que ya habría sido ocupado en este punto
+          const codigosTurnosPosibles = ["M8", "T8", "M6", "T6", "M4", "T4"]
+          // ¿Qué empleados podrían realizar turnos?
+          let empleadosQuePuedenRealizarTurnosPropuestos = 
+          evaluacionEmpleados.empleadosDisponibles(this.empleados, new Date(dia), codigosTurnosPosibles)
 
-        // Se comprueba que hay dos empleados en todo momento. Se asignan empleados hasta que se valida la condición.
-
-        this.empleados.flatMap(e => e.turnos).forEach(turno => {
-          if(moment(turno.fecha).isSame(new Date(dia), 'days')) {
-            console.log(`Turno asignado a ${turno.empleado.nombreCompleto}, TAG ${turno.empleado.tag} en formato ${turno.codigoTurno}, ha trabajado ${evaluacionEmpleados.calcularHorasTrabajadasEnLaUltimaSemana(turno.empleado, turno.fecha)} horas en la ultima semana, de un contrato de ${turno.empleado.contrato.numeroHorasSemanales}`)
+          // Asignaremos todos los empleados posibles, repartiéndolos entre mañana y tarde
+          let codigoTurnoAlternante = "T"
+          for (let emp of empleadosQuePuedenRealizarTurnosPropuestos) {
+            const codigoPropuesto = codigoTurnoAlternante
+              + evaluacionEmpleados.definirMinimoTurnoPosibleEntreLosDisponibles(emp, codigosTurnosPosibles)[1];
+            this.agregarTurnoAEmpleado(new Date(dia), codigoPropuesto, emp);
+            codigoTurnoAlternante = codigoTurnoAlternante === "T" ? "M" : "T";
           }
-        });
+        }
+
+        // this.empleados.flatMap(e => e.turnos).forEach(turno => {
+        //   if(moment(turno.fecha).isSame(new Date(dia), 'days')) {
+        //     console.log(`Turno asignado a ${turno.empleado.nombreCompleto}, TAG ${turno.empleado.tag} en formato ${turno.codigoTurno}, ha trabajado ${evaluacionEmpleados.calcularHorasTrabajadasEnLaUltimaSemana(turno.empleado, turno.fecha)} horas en la ultima semana, de un contrato de ${turno.empleado.contrato.numeroHorasSemanales}`)
+        //   }
+        // });
         console.log(`¿La jornada es válida? ${evaluacionTurnos.esJornadaValida(this.empleados.flatMap(e => e.turnos).filter(t => moment(t.fecha).isSame(new Date(dia), 'days')))}`)
       }
+
+      this.$emit('formulario-actualizado')
+      this.guardarEmpleadosEnLocalStorage();
     },
   },
 };

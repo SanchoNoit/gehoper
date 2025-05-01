@@ -4,12 +4,14 @@ import dayGridPlugin from "@fullcalendar/daygrid";
 import interactionPlugin from "@fullcalendar/interaction";
 import * as bootstrap from "bootstrap";
 import FormularioGenerarCalendario from "@/components/formularioGenerarCalendario.vue";
+import { useEmpleadosStore } from '@/stores/empleados'
 import { mapActions, mapState } from "pinia";
 import evaluacionTurnos from "@/assets/scripts/evaluacionTurnos";
 import moment from "moment";
 
 export default {
   mounted() {
+    this.refrescarCalendario();
   },
 
   components: {
@@ -36,10 +38,13 @@ export default {
         month: "long",
         day: "numeric",
       },
+
     };
   },
 
-  computed: {},
+  computed: {
+    ...mapState(useEmpleadosStore, ['empleados']),
+  },
 
   methods: {
     handleDateClick: function (arg) {
@@ -66,6 +71,22 @@ export default {
       );
 
       myModal.show();
+    },
+
+    refrescarCalendario() {
+      const turnosDeCadaEmpleado = this.empleados.map(e => ({
+        turnos: e.turnos.map(t => ({
+          fecha: t.fecha,
+          codigoTurno: t.codigoTurno,
+          empleadoID: e.id
+        }))
+      }))
+
+      this.calendarOptions.events = turnosDeCadaEmpleado.flatMap(t => t.turnos).map(t => (
+      {
+      title: `${t.empleadoID} - ${t.codigoTurno}`,
+      date: new Date(t.fecha)
+      }))
     }
   },
 };
@@ -138,7 +159,7 @@ export default {
           ></button>
         </div>
         <div class="modal-body">
-          <FormularioGenerarCalendario></FormularioGenerarCalendario>
+          <FormularioGenerarCalendario @formulario-actualizado="refrescarCalendario"></FormularioGenerarCalendario>
         </div>
       </div>
     </div>
