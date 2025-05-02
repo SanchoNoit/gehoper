@@ -82,7 +82,12 @@ export const useEmpleadosStore = defineStore("empleados", {
         turnosPosibles: e.turnosPosibles,
         turnos: e.turnos.map(t => ({
           fecha: t.fecha,
-          codigoTurno: t.codigoTurno
+          codigoTurno: t.codigoTurno,
+          empleado: ({
+            id: e.id,
+            nombreCompleto: e.nombreCompleto,
+            tag: e.tag
+          })
         }))
       }));
 

@@ -39,6 +39,17 @@ export default {
         day: "numeric",
       },
 
+      colors: [
+      "blue",
+      "darkblue",
+      "orange",
+      "darkred",
+      "darkgreen",
+      "purple",
+      "olive",
+      "grey",
+      "tan",
+    ]
     };
   },
 
@@ -78,14 +89,18 @@ export default {
         turnos: e.turnos.map(t => ({
           fecha: t.fecha,
           codigoTurno: t.codigoTurno,
-          empleadoID: e.id
+          empleadoID: e.id,
+          empleadoIniciales: e.nombreCompleto.split(' ').map(palabra => palabra[0].toUpperCase()).join('')
         }))
       }))
 
       this.calendarOptions.events = turnosDeCadaEmpleado.flatMap(t => t.turnos).map(t => (
       {
-      title: `${t.empleadoID} - ${t.codigoTurno}`,
-      date: new Date(t.fecha)
+      title: `ID:${t.empleadoID} - ${ t.empleadoIniciales } - ${t.codigoTurno}`,
+      date: new Date(t.fecha),
+      display: 'block',
+      backgroundColor: this.colors[t.empleadoID],
+      allDay: true
       }))
     }
   },
