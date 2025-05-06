@@ -15,9 +15,13 @@ export default {
 </script>
 
 <template>
-  <NavBar></NavBar>
+  <div class="d-flex flex-column">
+    <NavBar />
 
-  <router-view></router-view>
+    <main>
+      <router-view />
+    </main>
 
-  <Footer></Footer>
+    <Footer></Footer>
+  </div>
 </template>
