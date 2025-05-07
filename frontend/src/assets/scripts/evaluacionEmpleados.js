@@ -183,7 +183,6 @@ export default {
   calcularHorasTrabajadasEnLaUltimaSemana(empleado, fecha) {
     let numeroHorasTrabajadas = 0;
     const NUMERO_JORNADAS_A_REVISAR = 7;
-    const NUMERO_JORNADAS_MAXIMAS = 5;
 
     for (let i = 0; i < NUMERO_JORNADAS_A_REVISAR; i++) {
       let jornadaEstudiada = moment(fecha).subtract(i, "days");
@@ -203,4 +202,40 @@ export default {
 
     return numeroHorasTrabajadas;
   },
+
+  calcularHorasTrabajadasEnSemanaLaboral(empleado, anho, semanaDelAnho) {
+    let numeroHorasTrabajadas = 0;
+    const lunesDeSemanaAnalizada = moment().year(anho).week(semanaDelAnho).startOf('week').add(1, 'days').format('YYYY-MM-DD');
+
+    for (let i = 0; i < 6; i++) {
+      let jornadaEstudiada = lunesDeSemanaAnalizada.add(i, "days");
+
+      if (
+        empleado.turnos.some((t) =>
+          moment(t.fecha).isSame(jornadaEstudiada, "days")
+        )
+      ) {
+        numeroHorasTrabajadas += parseInt(
+          empleado.turnos.find((t) =>
+            moment(t.fecha).isSame(jornadaEstudiada, "days")
+          ).codigoTurno[1]
+        );
+      }
+    }
+
+    return numeroHorasTrabajadas;
+  },
+
+  comprabarHorasTrabajadasEnSemanaEnRelacionAContratadas(empleado, anho, semanaDelAnho) {
+    let codigoADevolver = 0;
+    const numeroHorasTrabajadasEnSemanaParticular = calcularHorasTrabajadasEnSemanaLaboral(empleado, anho, semanaDelAnho);
+
+    if (empleado.contrato.numeroHorasSemanales > numeroHorasTrabajadasEnSemanaParticular) {
+      codigoADevolver = -1;
+    } else if (empleado.contrato.numeroHorasSemanales < numeroHorasTrabajadasEnSemanaParticular) {
+      codigoADevolver = -2
+    }
+
+    return codigoADevolver;
+  }
 };

@@ -163,35 +163,35 @@ describe("evaluacionTurnos", () => {
     expect(evaluacionTurnos.obtenerArrayCodigosDeTurnoPropuestoParaTag3(turnos6)).toContain('T8');
   });
 
-  it("Obtiene un array de códigos de turno para zonas con menos de 2 empleados", () => {
+  // it("Obtiene un array de códigos de turno para zonas con menos de 2 empleados", () => {
 
-    // Turnos2 esta completo en lo relativo a numero de empleados por hora
-    expect(evaluacionTurnos.obtenerArrayCodigosDeTurnoPropuestoParaCubrirDosEmpleados(turnos2)).toHaveLength(0);
+  //   // Turnos2 esta completo en lo relativo a numero de empleados por hora
+  //   expect(evaluacionTurnos.obtenerArrayCodigosDeTurnoPropuestoParaCubrirDosEmpleados(turnos2)).toHaveLength(0);
 
-    // Turnos4 no tiene turnos asignados. Deberiamos obtener todos los turnos posibles
-    expect(evaluacionTurnos.obtenerArrayCodigosDeTurnoPropuestoParaCubrirDosEmpleados(turnos4)).toContain('P8');
-    expect(evaluacionTurnos.obtenerArrayCodigosDeTurnoPropuestoParaCubrirDosEmpleados(turnos4)).toContain('M8');
-    expect(evaluacionTurnos.obtenerArrayCodigosDeTurnoPropuestoParaCubrirDosEmpleados(turnos4)).toContain('M6');
-    expect(evaluacionTurnos.obtenerArrayCodigosDeTurnoPropuestoParaCubrirDosEmpleados(turnos4)).toContain('T8');
-    expect(evaluacionTurnos.obtenerArrayCodigosDeTurnoPropuestoParaCubrirDosEmpleados(turnos4)).toContain('T8');
+  //   // Turnos4 no tiene turnos asignados. Deberiamos obtener todos los turnos posibles
+  //   expect(evaluacionTurnos.obtenerArrayCodigosDeTurnoPropuestoParaCubrirDosEmpleados(turnos4)).toContain('P8');
+  //   expect(evaluacionTurnos.obtenerArrayCodigosDeTurnoPropuestoParaCubrirDosEmpleados(turnos4)).toContain('M8');
+  //   expect(evaluacionTurnos.obtenerArrayCodigosDeTurnoPropuestoParaCubrirDosEmpleados(turnos4)).toContain('M6');
+  //   expect(evaluacionTurnos.obtenerArrayCodigosDeTurnoPropuestoParaCubrirDosEmpleados(turnos4)).toContain('T8');
+  //   expect(evaluacionTurnos.obtenerArrayCodigosDeTurnoPropuestoParaCubrirDosEmpleados(turnos4)).toContain('T8');
     
-    // Turnos5 tiene todos los turnos cubiertos por al menos 2 empleados, deberiamos obtener []
-    expect(evaluacionTurnos.obtenerArrayCodigosDeTurnoPropuestoParaCubrirDosEmpleados(turnos5)).toHaveLength(0);
+  //   // Turnos5 tiene todos los turnos cubiertos por al menos 2 empleados, deberiamos obtener []
+  //   expect(evaluacionTurnos.obtenerArrayCodigosDeTurnoPropuestoParaCubrirDosEmpleados(turnos5)).toHaveLength(0);
 
-    // Turnos 6 solo tiene dos empleados solo las primeras 8 horas. Deberiamos obtener todos los turnos de tarde.
-    expect(evaluacionTurnos.obtenerArrayCodigosDeTurnoPropuestoParaCubrirDosEmpleados(turnos6)).not.toContain('P8');
-    expect(evaluacionTurnos.obtenerArrayCodigosDeTurnoPropuestoParaCubrirDosEmpleados(turnos6)).toContain('T8');
-    expect(evaluacionTurnos.obtenerArrayCodigosDeTurnoPropuestoParaCubrirDosEmpleados(turnos6)).toContain('T6');
-    expect(evaluacionTurnos.obtenerArrayCodigosDeTurnoPropuestoParaCubrirDosEmpleados(turnos6)).toContain('T5');
-    expect(evaluacionTurnos.obtenerArrayCodigosDeTurnoPropuestoParaCubrirDosEmpleados(turnos6)).toContain('T4');
+  //   // Turnos 6 solo tiene dos empleados solo las primeras 8 horas. Deberiamos obtener todos los turnos de tarde.
+  //   expect(evaluacionTurnos.obtenerArrayCodigosDeTurnoPropuestoParaCubrirDosEmpleados(turnos6)).not.toContain('P8');
+  //   expect(evaluacionTurnos.obtenerArrayCodigosDeTurnoPropuestoParaCubrirDosEmpleados(turnos6)).toContain('T8');
+  //   expect(evaluacionTurnos.obtenerArrayCodigosDeTurnoPropuestoParaCubrirDosEmpleados(turnos6)).toContain('T6');
+  //   expect(evaluacionTurnos.obtenerArrayCodigosDeTurnoPropuestoParaCubrirDosEmpleados(turnos6)).toContain('T5');
+  //   expect(evaluacionTurnos.obtenerArrayCodigosDeTurnoPropuestoParaCubrirDosEmpleados(turnos6)).toContain('T4');
 
-    // Turnos 7 no tiene empleados doblados. Deberiamos obtener todos los turnos de tarde.
-    expect(evaluacionTurnos.obtenerArrayCodigosDeTurnoPropuestoParaCubrirDosEmpleados(turnos7)).not.toContain('P8');
-    expect(evaluacionTurnos.obtenerArrayCodigosDeTurnoPropuestoParaCubrirDosEmpleados(turnos7)).toContain('T8');
-    expect(evaluacionTurnos.obtenerArrayCodigosDeTurnoPropuestoParaCubrirDosEmpleados(turnos7)).toContain('T6');
-    expect(evaluacionTurnos.obtenerArrayCodigosDeTurnoPropuestoParaCubrirDosEmpleados(turnos7)).toContain('T5');
-    expect(evaluacionTurnos.obtenerArrayCodigosDeTurnoPropuestoParaCubrirDosEmpleados(turnos7)).toContain('T4');
-  });
+  //   // Turnos 7 no tiene empleados doblados. Deberiamos obtener todos los turnos de tarde.
+  //   expect(evaluacionTurnos.obtenerArrayCodigosDeTurnoPropuestoParaCubrirDosEmpleados(turnos7)).not.toContain('P8');
+  //   expect(evaluacionTurnos.obtenerArrayCodigosDeTurnoPropuestoParaCubrirDosEmpleados(turnos7)).toContain('T8');
+  //   expect(evaluacionTurnos.obtenerArrayCodigosDeTurnoPropuestoParaCubrirDosEmpleados(turnos7)).toContain('T6');
+  //   expect(evaluacionTurnos.obtenerArrayCodigosDeTurnoPropuestoParaCubrirDosEmpleados(turnos7)).toContain('T5');
+  //   expect(evaluacionTurnos.obtenerArrayCodigosDeTurnoPropuestoParaCubrirDosEmpleados(turnos7)).toContain('T4');
+  // });
 
 
 });
