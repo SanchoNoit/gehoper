@@ -42,13 +42,14 @@ export default {
     return empleadosFiltrados;
   },
 
-  proponerEmpleadoEnBaseAPuntuacion(empleados) { 
+  proponerEmpleadoEnBaseAPuntuacion(empleados) {
     if (empleados.length > 0) {
       const empleadoPropuesto = empleados.reduce((mejor, actual) => {
         if (
-          this.obtenerPuntuacionEmpleado(actual) ===
-            this.obtenerPuntuacionEmpleado(mejor) &&
-          mejor.tag === 3
+          // this.obtenerPuntuacionEmpleado(actual) ===
+          //   this.obtenerPuntuacionEmpleado(mejor) &&
+          // mejor.tag === 3
+          actual.tag === 1 && mejor.tag === 3
         ) {
           return actual;
         } else {
@@ -57,11 +58,9 @@ export default {
             ? actual
             : mejor;
         }
-      }
-    );
+      });
 
-    return empleadoPropuesto;
-
+      return empleadoPropuesto;
     } else {
       console.warn("Nos hemos quedado sin empleados que proponer");
       return null;
@@ -203,39 +202,5 @@ export default {
     return numeroHorasTrabajadas;
   },
 
-  calcularHorasTrabajadasEnSemanaLaboral(empleado, anho, semanaDelAnho) {
-    let numeroHorasTrabajadas = 0;
-    const lunesDeSemanaAnalizada = moment().year(anho).week(semanaDelAnho).startOf('week').add(1, 'days').format('YYYY-MM-DD');
 
-    for (let i = 0; i < 6; i++) {
-      let jornadaEstudiada = lunesDeSemanaAnalizada.add(i, "days");
-
-      if (
-        empleado.turnos.some((t) =>
-          moment(t.fecha).isSame(jornadaEstudiada, "days")
-        )
-      ) {
-        numeroHorasTrabajadas += parseInt(
-          empleado.turnos.find((t) =>
-            moment(t.fecha).isSame(jornadaEstudiada, "days")
-          ).codigoTurno[1]
-        );
-      }
-    }
-
-    return numeroHorasTrabajadas;
-  },
-
-  comprabarHorasTrabajadasEnSemanaEnRelacionAContratadas(empleado, anho, semanaDelAnho) {
-    let codigoADevolver = 0;
-    const numeroHorasTrabajadasEnSemanaParticular = calcularHorasTrabajadasEnSemanaLaboral(empleado, anho, semanaDelAnho);
-
-    if (empleado.contrato.numeroHorasSemanales > numeroHorasTrabajadasEnSemanaParticular) {
-      codigoADevolver = -1;
-    } else if (empleado.contrato.numeroHorasSemanales < numeroHorasTrabajadasEnSemanaParticular) {
-      codigoADevolver = -2
-    }
-
-    return codigoADevolver;
-  }
 };

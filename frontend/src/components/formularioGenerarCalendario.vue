@@ -30,9 +30,6 @@ export default {
       fechaFin.setDate(fechaFin.getDate() + this.numeroSemanasAGenerar * 7);
 
       for (let dia = new Date(fechaInicio); dia < fechaFin; dia.setDate(dia.getDate() + 1)) {
-        console.log(
-          `Generando turnos para dia ${dia.toLocaleDateString("es-ES")}`
-        );
         // Se comprueba si es un día laborable, se salta si no lo es.
           const esDiaLaborable = await validacionDiaComoJornadaLaboral.esDiaLaborable(new Date(dia));
           if (!esDiaLaborable) {
@@ -56,6 +53,10 @@ export default {
           // ¿Qué empleados pueden cubrir los turnos indicados?
           let empleadosQuePuedenRealizarTurnosPropuestos = 
             evaluacionEmpleados.empleadosDisponibles(this.empleados, new Date(dia), arrayCodigosPropuestos).filter(e => e.tag === 3)
+
+          if (empleadosQuePuedenRealizarTurnosPropuestos.length < 1) {
+            break;
+          }
 
           // De estos empleados, ¿cual es el más idóneo?
           let empleadoPropuesto = evaluacionEmpleados.proponerEmpleadoEnBaseAPuntuacion(empleadosQuePuedenRealizarTurnosPropuestos)
@@ -83,12 +84,16 @@ export default {
           let empleadosQuePuedenRealizarTurnosPropuestos = 
             evaluacionEmpleados.empleadosDisponibles(this.empleados, new Date(dia), arrayCodigosPropuestos)
 
+          if (empleadosQuePuedenRealizarTurnosPropuestos.length < 1) {
+            break;
+          }
+
           // De estos empleados, ¿cual es el más idóneo?
           let empleadoPropuesto = evaluacionEmpleados.proponerEmpleadoEnBaseAPuntuacion(empleadosQuePuedenRealizarTurnosPropuestos)
 
           // De los turnos propuestos, seleccionaremos el mínimo posible para el empleado propuesto.
           let codigoPropuesto = evaluacionEmpleados.definirCodigoTurnoParaEmpleado(empleadoPropuesto, arrayCodigosPropuestos)
-
+          
           // Agregamos el turno propuesto al empleado
           this.agregarTurnoAEmpleado(new Date(dia), codigoPropuesto, empleadoPropuesto)
 
@@ -115,11 +120,6 @@ export default {
           }
         }
 
-        // this.empleados.flatMap(e => e.turnos).forEach(turno => {
-        //   if(moment(turno.fecha).isSame(new Date(dia), 'days')) {
-        //     console.log(`Turno asignado a ${turno.empleado.nombreCompleto}, TAG ${turno.empleado.tag} en formato ${turno.codigoTurno}, ha trabajado ${evaluacionEmpleados.calcularHorasTrabajadasEnLaUltimaSemana(turno.empleado, turno.fecha)} horas en la ultima semana, de un contrato de ${turno.empleado.contrato.numeroHorasSemanales}`)
-        //   }
-        // });
         console.log(`¿La jornada es válida? ${evaluacionTurnos.esJornadaValida(this.empleados.flatMap(e => e.turnos).filter(t => moment(t.fecha).isSame(new Date(dia), 'days')))}`)
       }
 

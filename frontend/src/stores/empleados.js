@@ -14,10 +14,10 @@ export const useEmpleadosStore = defineStore("empleados", {
     async cargarEmpleados() {
       const empleadosEnLocalStorage = localStorage.getItem("empleados");
       if (empleadosEnLocalStorage) {
-        console.log('No se encuentran empleados en el localStorage. Se crean a partir del JSON.')
+        console.log('Empleados encontrados en el localStorage. Se cargan.')
         this.empleados = JSON.parse(empleadosEnLocalStorage);
       } else {
-        console.log('Empleados encontrados en el localStorage. Se cargan.')
+        console.log('No se encuentran empleados en el localStorage. Se crean a partir del JSON.')
         const varEmpleadosJson = await import("@/assets/json/empleados.json"); // Solo cargaremos el JSON en caso de requerirlo
         this.empleados = varEmpleadosJson._embedded.empleados;
       }
@@ -33,9 +33,7 @@ export const useEmpleadosStore = defineStore("empleados", {
           empleado: this.empleados.find((e) => e.id === empleadoParametro.id)
         }
 
-        // TODO: Agregar setters a turnos para agregar estos turnos
         this.empleados.find((e) => e.id === empleadoParametro.id).turnos.push(nuevoTurno)
-        console.log(`Se agrega un turno a ${nuevoTurno.empleado.nombreCompleto}, con codigo ${nuevoTurno.codigoTurno}.`)
       } else {
         console.error(
           `Se ha intentado agregar al empleado ${empleadoParametro} pero no se encuentra`
@@ -54,9 +52,6 @@ export const useEmpleadosStore = defineStore("empleados", {
         }
       }
 
-      // let empleadosConciliadores = this.empleados.filter(
-      //   (emp) => emp.contrato.esConciliador
-      // );
       for (let emp of this.empleados.filter(
         (emp) => emp.contrato.esConciliador
       )) {
@@ -66,7 +61,9 @@ export const useEmpleadosStore = defineStore("empleados", {
               ? emp.turnosPosibles.find((t) => t[0] === "M")
               : emp.turnosPosibles.find((t) => t[0] === "P");
 
-          this.agregarTurnoAEmpleado(new Date(fecha), codigoTurnoAAsignar, emp);
+          if (evaluacionEmpleados.trabajaMenosDeCincoJornadas(emp, fecha)) {
+            this.agregarTurnoAEmpleado(new Date(fecha), codigoTurnoAAsignar, emp);
+          }
         }
       }
     },
@@ -94,7 +91,7 @@ export const useEmpleadosStore = defineStore("empleados", {
       try {
         JSON.stringify(empleadosParaLocalStorage);
       } catch (e) {
-        console.error("Error during serialization:", e);
+        console.error("Error durante la serializacion:", e);
       }
 
       localStorage.setItem("empleados", JSON.stringify(empleadosParaLocalStorage));
