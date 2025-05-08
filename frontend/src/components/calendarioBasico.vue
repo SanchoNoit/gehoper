@@ -5,10 +5,8 @@ import interactionPlugin from "@fullcalendar/interaction";
 import * as bootstrap from "bootstrap";
 import FormularioGenerarCalendario from "@/components/formularioGenerarCalendario.vue";
 import { useEmpleadosStore } from "@/stores/empleados";
-import { mapActions, mapState } from "pinia";
+import { mapState } from "pinia";
 import evaluacionTurnos from "@/assets/scripts/evaluacionTurnos";
-import evaluacionEmpleados from "@/assets/scripts/evaluacionEmpleados";
-import validacionDiaComoJornadaLaboral from "@/assets/scripts/validacionDiaComoJornadaLaboral"
 import moment from "moment";
 
 export default {
@@ -210,6 +208,12 @@ export default {
         }));
     },
 
+    mostrarToastTurnosGenerados() {
+      const toastLiveExample = document.getElementById('toastTurnosGenerados')
+      const toastBootstrap = bootstrap.Toast.getOrCreateInstance(toastLiveExample)
+      toastBootstrap.show()
+    },
+
     devolverHorario(codigoTurno) {
       let stringDeHorarioADevolver = "";
 
@@ -381,6 +385,7 @@ export default {
         <div class="modal-body">
           <FormularioGenerarCalendario
             @formulario-actualizado="refrescarCalendario"
+            @informar-turnos-generados="mostrarToastTurnosGenerados"
           ></FormularioGenerarCalendario>
         </div>
       </div>
@@ -494,14 +499,29 @@ export default {
       <p v-for="dia in this.diasMostrados">{{ dia.format("DD MMM") }}: {{ this.validarJornada(dia) }}</p>
     </div>
   </div>
+
+  <!-- Toast de generación de turnos -->
+  <div class="toast-container position-fixed bottom-0 end-0 p-3">
+    <div id="toastTurnosGenerados" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+      <div class="toast-header">
+        <strong class="me-auto">✅ Turnos creados y cargados</strong>
+        <small>11 mins ago</small>
+        <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+      </div>
+      <div class="toast-body">
+        Los turnos seleccionados se cargaron correctamente
+      </div>
+    </div>
+  </div>
+
 </template>
 
 <style scoped>
 .btn-moderno {
-  background: rgba(3, 48, 5, 0.829);
+  background: rgba(15, 105, 37, 0.4);
   border: none;
   backdrop-filter: blur(6px);
-  color: #b3e0c7;
+  color: #202924;
   padding: 0.75rem 1.5rem;
   font-weight: 600;
   border-radius: 1.5rem;
@@ -510,7 +530,7 @@ export default {
 }
 
 .btn-moderno:hover {
-  background: rgba(15, 105, 37, 0.4);
+  background: rgba(3, 48, 5, 0.829); 
   color: white;
   transform: scale(1.05);
   box-shadow: 0 6px 25px rgba(0, 123, 255, 0.5);

@@ -27,16 +27,3 @@ export function getFestivosRegionales() {
 export function getFestivosLocales() {
   return llamadaAPI("get", null, API_FESTIVOS_LOCALES)
 }
-
-// export function postPartidos(data) {
-//   return llamadaAPI("post", data, API_PARTIDOS)
-// }
-
-// export function deleteEntidad(entidad) {
-//   console.log("En apiservice, antes de delete: ", entidad)
-//   return llamadaAPI("delete", null, cambiarHttpPorHttps(entidad))
-// }
-
-// export function putEntidad(entidad, data) {
-//   return llamadaAPI("put", data, cambiarHttpPorHttps(entidad))
-// }

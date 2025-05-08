@@ -15,13 +15,24 @@ export default {
 </script>
 
 <template>
-  <div class="d-flex flex-column">
     <NavBar />
 
-    <main>
+    <main class="flex-grow: 1">
       <router-view />
     </main>
 
     <Footer></Footer>
-  </div>
 </template>
+
+<style>
+html, body, #app {
+  height: 100%;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+main {
+  flex-grow: 1;
+}
+</style>

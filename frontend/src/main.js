@@ -16,16 +16,14 @@ library.add(faHouse, faWandMagicSparkles, faCircleQuestion, faClock, faCheck)
 // ################## ROUTER #################### 
 import { createRouter, createWebHashHistory } from 'vue-router'
 
-const Bienvenida = () => import('@/components/bienvenida.vue');
 const CalendarioBasico = () => import('@/components/calendarioBasico.vue');
-const GestorJornadasCalendario = () => import('@/components/gestorJornadasCalendario.vue');
+const GestorEmpleadosTurnos = () => import('@/components/gestorEmpleadosTurnos.vue');
 
 const routes = [
-  { path: '/', redirect: '/bienvenida' },
-  { path: '/bienvenida', component: Bienvenida, name: 'bienvenida' },
+  { path: '/', redirect: '/calendarioBasico' },
   { path: '/calendarioBasico', component: CalendarioBasico, name: 'calendarioBasico' },
-  { path: '/GestorJornadasCalendario', component: GestorJornadasCalendario, name: 'gestorJornadasCalendario' },
-  { path: '/:pathMatch(.*)*', component: Bienvenida, name: 'bienvenida'},
+  { path: '/GestorEmpleadosTurnos', component: GestorEmpleadosTurnos, name: 'gestorEmpleadosTurnos' },
+  { path: '/:pathMatch(.*)*', component: CalendarioBasico, name: 'calendarioBasico'},
 ]
 
 const router = createRouter({

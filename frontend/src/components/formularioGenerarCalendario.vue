@@ -7,7 +7,7 @@ import evaluacionTurnos from "@/assets/scripts/evaluacionTurnos";
 import evaluacionEmpleados from "@/assets/scripts/evaluacionEmpleados";
 
 export default {
-  emits: ['formulario-actualizado'],
+  emits: ['formulario-actualizado', 'informar-turnos-generados'],
   props: [],
 
   data() {
@@ -33,9 +33,6 @@ export default {
         // Se comprueba si es un día laborable, se salta si no lo es.
           const esDiaLaborable = await validacionDiaComoJornadaLaboral.esDiaLaborable(new Date(dia));
           if (!esDiaLaborable) {
-            // console.log(
-            //   `El dia ${dia.toDateString()} se trata de dia festivo, y no se generan jornadas para este día.`
-            // );
             continue;
           }
 
@@ -119,11 +116,10 @@ export default {
             codigoTurnoAlternante = codigoTurnoAlternante === "T" ? "M" : "T";
           }
         }
-
-        console.log(`¿La jornada es válida? ${evaluacionTurnos.esJornadaValida(this.empleados.flatMap(e => e.turnos).filter(t => moment(t.fecha).isSame(new Date(dia), 'days')))}`)
       }
 
       this.$emit('formulario-actualizado')
+      this.$emit('informar-turnos-generados')
       this.guardarEmpleadosEnLocalStorage();
     },
   },
