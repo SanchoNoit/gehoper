@@ -56,7 +56,7 @@ La aplicación podrá:
 
 7. **Despliegue en Internet:**
    * **API:** *TBD*
-   * **Web:** *TBD*
+   * **Web:** https://gehoper.netlify.app
 
 ## Interfaz de Usuario
 ### Figura 1: Interfaz de la aplicación
