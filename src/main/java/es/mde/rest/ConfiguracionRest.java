@@ -24,6 +24,8 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.CorsFilter;
 
+import es.mde.entidades.EmpleadoBaseConId;
+
 /**
  * Configuracion de uso generalizado para distintos proyectos Spring Data Rest.
  * Proporciona las siguientes funcionalidades:
@@ -56,8 +58,7 @@ public class ConfiguracionRest {
 	@Bean
 	RepresentationModelProcessor<RepositorySearchesResource> addSearchLinks(RepositoryRestConfiguration config) {
 		Map<Class<?>, Class<?>> controllersRegistrados = new HashMap<>();
-		// TODO: Eliminar si no se emplea?
-//		controllersRegistrados.put(Producto.class, ProductoController.class);
+		controllersRegistrados.put(EmpleadoBaseConId.class, EmpleadoBaseController.class);
 
 		return new RepresentationModelProcessor<RepositorySearchesResource>() {
 
