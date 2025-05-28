@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<entity-mappings xmlns="https://jakarta.ee/xml/ns/persistence/orm"
+                 xmlns:xsi="https://www.w3.org/2001/XMLSchema-instance"
+                 xsi:schemaLocation="https://jakarta.ee/xml/ns/persistence/orm
+                                     https://jakarta.ee/xml/ns/persistence/orm/orm_3_0.xsd"
+                 version="3.0">
+
+    <mapped-superclass class="es.mde.EmpleadoLaboral" access="FIELD">
+        <attributes>
+            <basic name="tag" optional="false" />
+            <basic name="tipoEmpleado" optional="true" >
+            	<column name="Tipo_Empleado" />
+            	<enumerated>STRING</enumerated>
+            </basic>
+            <one-to-many name="asignaciones" target-entity="es.mde.entidades.AsignacionConId" mapped-by="empleadoLaboral"/>
+        </attributes>
+    </mapped-superclass>
+</entity-mappings>

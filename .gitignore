@@ -5,3 +5,5 @@ frontend/.vscode
 frontend/package-lock.json
 frontend/dist
 dist
+/.gradle/
+/build/
