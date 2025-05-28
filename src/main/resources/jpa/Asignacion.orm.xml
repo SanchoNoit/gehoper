@@ -5,7 +5,7 @@
                                      https://jakarta.ee/xml/ns/persistence/orm/orm_3_0.xsd"
                  version="3.0">
 
-    <mapped-superclass class="es.mde.Asignacion" access="FIELD">
+    <mapped-superclass class="es.mde.libreriaexterna.Asignacion" access="FIELD">
         <attributes>
             <basic name="fecha" optional="false" />
             <embedded name="turno" optional="true" />

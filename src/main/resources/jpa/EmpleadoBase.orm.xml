@@ -6,7 +6,7 @@
                  version="3.0">
 
 
-    <mapped-superclass class="es.mde.EmpleadoBase" access="FIELD">
+    <mapped-superclass class="es.mde.libreriaexterna.EmpleadoBaseImpl" access="FIELD">
         <attributes>
             <basic name="nombre" optional="false" />
             <basic name="activo" optional="false" />

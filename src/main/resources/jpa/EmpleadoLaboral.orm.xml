@@ -5,14 +5,13 @@
                                      https://jakarta.ee/xml/ns/persistence/orm/orm_3_0.xsd"
                  version="3.0">
 
-    <mapped-superclass class="es.mde.EmpleadoLaboral" access="FIELD">
+    <mapped-superclass class="es.mde.libreriaexterna.EmpleadoLaboral" access="FIELD">
         <attributes>
             <basic name="tag" optional="false" />
             <basic name="tipoEmpleado" optional="true" >
             	<column name="Tipo_Empleado" />
             	<enumerated>STRING</enumerated>
             </basic>
-            <one-to-many name="asignaciones" target-entity="es.mde.entidades.AsignacionConId" mapped-by="empleadoLaboral"/>
         </attributes>
     </mapped-superclass>
 </entity-mappings>

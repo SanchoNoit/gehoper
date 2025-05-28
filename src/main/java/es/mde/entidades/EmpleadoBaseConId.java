@@ -1,6 +1,6 @@
 package es.mde.entidades;
 
-import es.mde.EmpleadoBase;
+import es.mde.libreriaexterna.EmpleadoBaseImpl;
 import jakarta.persistence.Column;
 import jakarta.persistence.DiscriminatorColumn;
 import jakarta.persistence.DiscriminatorValue;
@@ -17,7 +17,7 @@ import jakarta.persistence.Table;
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name = "TIPO")
 @DiscriminatorValue("Base")
-public abstract class EmpleadoBaseConId extends EmpleadoBase {
+public abstract class EmpleadoBaseConId extends EmpleadoBaseImpl {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
