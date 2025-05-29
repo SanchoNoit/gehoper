@@ -5,5 +5,10 @@ frontend/.vscode
 frontend/package-lock.json
 frontend/dist
 dist
-/.gradle/
-/build/
+.gradle/
+build/
+
+gehoper-API.log
+
+### Passwords ###
+src/main/resources/config/passwordsBD.properties

@@ -22,16 +22,12 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 
-/**
- * ConfiguracionPorJava establece los parametros configurables en los distintos properties, referenciándolos.
- * 
- * @author Daniel Sánchez López
- *
- */
 @Configuration
 @EnableTransactionManagement
-@PropertySource({ "classpath:config/rest.properties", "classpath:config/jackson.properties", "classpath:config/gestionBBDD.properties"
-//	, "classpath:config/passwordsBD.properties" // se comenta esta linea para que no busque el archivo al compilarse en heroku, ya que no lo hemos subido porque las contraseñas se las proporcionaremos por variables 
+@PropertySource({ "classpath:config/rest.properties", 
+	              "classpath:config/jackson.properties", 
+	              "classpath:config/gestionBBDD.properties",
+//	              "classpath:config/passwordsBD.properties" // se comenta esta linea para que no busque el archivo al compilarse en heroku, ya que no lo hemos subido porque las contraseñas se las proporcionaremos por variables 
 	})
 @EnableJpaRepositories({"${misRepositorios}"}) // Leemos el valor de propiedades pero solo para las entidades anotadas
 @ComponentScan({"${misRepositorios}", "es.mde.rest"}) // para que escanee los Listener, los Controller y los servicios...

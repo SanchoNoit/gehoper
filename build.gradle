@@ -30,9 +30,18 @@ dependencies {
 	
 	/* Libreria personalizada mediante Jitpack */
 	implementation 'com.github.SanchoNoit:gehoper-libreria:1f0d30edd2'
+
+	/* Base de datos y despliegue Heroku*/
+	runtimeOnly 'org.postgresql:postgresql:42.3.2'
+	runtimeOnly 'com.mysql:mysql-connector-j'
+	runtimeOnly 'com.microsoft.sqlserver:mssql-jdbc'
 	
 }
 
 tasks.named('test') {
 	useJUnitPlatform()
+}
+
+tasks.named("jar") {
+	enabled=false
 }
