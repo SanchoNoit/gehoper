@@ -8,7 +8,6 @@
     <mapped-superclass class="es.mde.libreriaexterna.Asignacion" access="FIELD">
         <attributes>
             <basic name="fecha" optional="false" />
-            <embedded name="turno" optional="true" />
         </attributes>
     </mapped-superclass>
 </entity-mappings>

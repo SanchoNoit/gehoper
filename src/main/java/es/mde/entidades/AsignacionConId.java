@@ -1,7 +1,5 @@
 package es.mde.entidades;
 
-import java.time.LocalTime;
-
 import es.mde.libreriaexterna.Asignacion;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -21,47 +19,18 @@ public class AsignacionConId extends Asignacion {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(unique = true)
 	private Long id;
-	
+
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "Empleado")
 	private EmpleadoBaseConId empleado;
-	
-	private LocalTime horaInicioTurno;
-	private LocalTime horaFinalTurno;
+
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "Turno")
+	private TurnoBaseConId turno;
+
 	private String codigoTurno;
-	
-	public AsignacionConId() {}
-	
-	public AsignacionConId(String codigoTurno) {
-		char codigoFranja = codigoTurno.charAt(0);
-		int codigoHoras = Integer.parseInt(String.valueOf(codigoTurno.charAt(1)));
-		
-		if (codigoFranja == 'M') {
-			horaInicioTurno = LocalTime.of(10, 00);
-			horaFinalTurno = LocalTime.of((10 + codigoHoras), 00);
-		} else if (codigoFranja == 'T') {
-			horaFinalTurno = LocalTime.of(21, 00);
-			horaInicioTurno = LocalTime.of((21 - codigoHoras), 00);
-		} else {
-			horaInicioTurno = LocalTime.of(10, 00);
-			horaFinalTurno = LocalTime.of(21, 00);
-		}
-	}
 
-	public LocalTime getHoraInicioTurno() {
-		return horaInicioTurno;
-	}
-
-	public void setHoraInicioTurno(LocalTime horaInicioTurno) {
-		this.horaInicioTurno = horaInicioTurno;
-	}
-
-	public LocalTime getHoraFinalTurno() {
-		return horaFinalTurno;
-	}
-
-	public void setHoraFinalTurno(LocalTime horaFinalTurno) {
-		this.horaFinalTurno = horaFinalTurno;
+	public AsignacionConId() {
 	}
 
 	public Long getId() {
@@ -87,5 +56,13 @@ public class AsignacionConId extends Asignacion {
 	public void setCodigoTurno(String codigoTurno) {
 		this.codigoTurno = codigoTurno;
 	}
-		
+
+	public TurnoBaseConId getTurno() {
+		return turno;
+	}
+
+	public void setTurno(TurnoBaseConId turno) {
+		this.turno = turno;
+	}
+
 }

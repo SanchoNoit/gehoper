@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
 import es.mde.entidades.EmpleadoBaseConId;
+import es.mde.entidades.Informe;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 
@@ -19,11 +20,11 @@ public class EmpleadoBaseDAOImpl implements EmpleadoBaseDAOCustom {
 	EntityManager entityManager;
 
 	@Override
-	public String getInformeHorasTrabajadas(Long id, LocalDate fechaInicioConsulta, LocalDate fechaFinalConsulta) {
+	public Informe getInformeHorasTrabajadas(Long id, LocalDate fechaInicioConsulta, LocalDate fechaFinalConsulta) {
 		
 		EmpleadoBaseConId empleadoBuscado = empleadoBaseDAO.getReferenceById(id);
 		
-		return empleadoBuscado.generarReporte(fechaInicioConsulta, fechaFinalConsulta);	
+		return empleadoBuscado.generarInforme(fechaInicioConsulta, fechaFinalConsulta);
 	}
 
 }

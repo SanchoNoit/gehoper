@@ -6,9 +6,11 @@
                  version="3.0">
 
 
-    <mapped-superclass class="es.mde.libreriaexterna.EmpleadoBaseImpl" access="FIELD">
+    <mapped-superclass class="es.mde.libreriaexterna.TurnoBaseImpl" access="FIELD">
         <attributes>
             <basic name="nombre" optional="false" />
+            <basic name="horaInicio" optional="false" />
+            <basic name="horaFin" optional="false" />
             <basic name="activo" optional="false" />
         </attributes>
     </mapped-superclass>

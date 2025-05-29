@@ -29,7 +29,7 @@ dependencies {
 	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 	
 	/* Libreria personalizada mediante Jitpack */
-	implementation 'com.github.SanchoNoit:gehoper-libreria:c299fa8d33'
+	implementation 'com.github.SanchoNoit:gehoper-libreria:1f0d30edd2'
 	
 }
 
