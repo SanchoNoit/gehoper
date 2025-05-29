@@ -26,7 +26,7 @@ import jakarta.persistence.EntityManagerFactory;
 @EnableTransactionManagement
 @PropertySource({ "classpath:config/rest.properties", 
 	              "classpath:config/jackson.properties", 
-	              "classpath:config/gestionBBDD.properties",
+	              "classpath:config/gestionBBDD.properties"
 //	              "classpath:config/passwordsBD.properties" // se comenta esta linea para que no busque el archivo al compilarse en heroku, ya que no lo hemos subido porque las contraseñas se las proporcionaremos por variables 
 	})
 @EnableJpaRepositories({"${misRepositorios}"}) // Leemos el valor de propiedades pero solo para las entidades anotadas
