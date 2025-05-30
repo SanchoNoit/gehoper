@@ -52,10 +52,10 @@ La aplicación podrá:
 
 6. **URLs del proyectos:**
    * **Repositorio del proyecto:**  https://git.institutomilitar.com/A50tc0/gehoper
-   * **Librería:**  *TBD*
+   * **Librería:**  https://github.com/SanchoNoit/gehoper-libreria
 
 7. **Despliegue en Internet:**
-   * **API:** *TBD*
+   * **API:** https://gehoper-940d92e7e388.herokuapp.com/api/
    * **Web:** https://gehoper.netlify.app
 
 ## Interfaz de Usuario
