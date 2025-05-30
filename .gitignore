@@ -8,7 +8,8 @@ dist
 .gradle/
 build/
 
-gehoper-API.log
+### VSCODE ###
+.vscode/
 
 ### Passwords ###
 src/main/resources/config/passwordsBD.properties
@@ -78,3 +79,6 @@ atlassian-ide-plugin.xml
 
 # NetBeans specific files/directories
 .nbattrs
+
+# Logs
+logs/
