@@ -2,12 +2,15 @@
 import NavBar from "@/components/navegacion/navbar.vue";
 import Footer from "@/components/navegacion/footer.vue";
 import { useEmpleadosStore } from "@/stores/empleados";
+import { useAsignacionesStore } from "@/stores/asignaciones";
 
 export default {
-  async mounted() {
+  mounted() {
     const empleadosStore = useEmpleadosStore();
-    empleadosStore.cargarEmpleados();
+    empleadosStore.cargarEmpleadosDesdeAPI();
 
+    const asignacionesStore = useAsignacionesStore();
+    asignacionesStore.cargarAsignacionesDesdeAPI();
   },
 
   components: { NavBar, Footer },

@@ -7,7 +7,9 @@ import FormularioGenerarCalendario from "@/components/formularioGenerarCalendari
 import { useEmpleadosStore } from "@/stores/empleados";
 import { mapState } from "pinia";
 import evaluacionTurnos from "@/assets/scripts/evaluacionTurnos";
+import funcionesDeAsignaciones from "@/assets/scripts/funcionesDeAsignaciones";
 import moment from "moment";
+import { useAsignacionesStore } from "@/stores/asignaciones";
 
 export default {
   mounted() {
@@ -71,6 +73,7 @@ export default {
 
   computed: {
     ...mapState(useEmpleadosStore, ["empleados"]),
+    ...mapState(useAsignacionesStore, ["asignaciones"])
   },
 
   methods: {
@@ -183,29 +186,26 @@ export default {
     },
 
     refrescarCalendario() {
-      const turnosDeCadaEmpleado = this.empleados.map((e) => ({
-        turnos: e.turnos.map((t) => ({
-          fecha: t.fecha,
-          codigoTurno: t.codigoTurno,
-          empleadoID: e.id,
-          empleadoTAG: e.tag,
-          empleadoIniciales: e.nombreCompleto
-            .split(" ")
-            .map((palabra) => palabra[0].toUpperCase())
-            .join(""),
-        })),
-      }));
+      // TODO: Modificar backend para adaptarlo a la nueva estructura
+      // const asignacionesModificadas = this.asignaciones.map((a) => ({
+      //     fecha: a.fecha,
+      //     codigoTurno: a.codigoTurno,
+      //     empleadoID: funcionesDeAsignaciones.obtenerEmpleadoAlQuePerteneceAsignacion(a, this.empleados).tag,
+      //     empleadoTAG: funcionesDeAsignaciones.obtenerEmpleadoAlQuePerteneceAsignacion(a, this.empleados).tag,
+      //     empleadoIniciales: funcionesDeAsignaciones.obtenerEmpleadoAlQuePerteneceAsignacion(a, this.empleados).nombre
+      //       .split(" ")
+      //       .map((palabra) => palabra[0].toUpperCase())
+      //       .join("")
+      // }));
 
-      this.calendarOptions.events = turnosDeCadaEmpleado
-        .flatMap((t) => t.turnos)
-        .map((t) => ({
-          title: `${t.empleadoIniciales} - ${t.codigoTurno}`,
-          date: new Date(t.fecha),
-          display: "block",
-          backgroundColor:
-            t.empleadoTAG === 1 ? this.colors[0] : this.colors[1],
-          allDay: true,
-        }));
+      // this.calendarOptions.events = asignacionesModificadas.map((a) => ({
+      //     title: `${a.empleadoIniciales} - ${a.codigoTurno}`,
+      //     date: new Date(a.fecha),
+      //     display: "block",
+      //     backgroundColor:
+      //       a.empleadoTAG === 1 ? this.colors[0] : this.colors[1],
+      //     allDay: true,
+      //   }));
     },
 
     mostrarToastTurnosGenerados() {

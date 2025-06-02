@@ -22,7 +22,7 @@ export default {
   },
 
   methods: {
-    ...mapActions(useEmpleadosStore, ['agregarTurnoAEmpleado', 'agregarTurnosFijos', 'guardarEmpleadosEnLocalStorage']),
+    ...mapActions(useEmpleadosStore, ['agregarAsignacionAEmpleado', 'agregarTurnosFijos', 'guardarEmpleadosEnLocalStorage']),
 
     async rellenarFormulario() {
       const fechaInicio = new Date(this.fechaInicialGeneracionTurnos);
@@ -62,7 +62,7 @@ export default {
           let codigoPropuesto = evaluacionEmpleados.definirCodigoTurnoParaEmpleado(empleadoPropuesto, arrayCodigosPropuestos)
 
           // Agregamos el turno propuesto al empleado
-          this.agregarTurnoAEmpleado(new Date(dia), codigoPropuesto, empleadoPropuesto)
+          this.agregarAsignacionAEmpleado(new Date(dia), codigoPropuesto, empleadoPropuesto)
 
           turnosDeJornadaDeTag3 = this.empleados.filter(e => e.tag === 3).flatMap(e => e.turnos)
                                                 .filter(t => moment(t.fecha).isSame(new Date(dia), 'days')) 
@@ -92,7 +92,7 @@ export default {
           let codigoPropuesto = evaluacionEmpleados.definirCodigoTurnoParaEmpleado(empleadoPropuesto, arrayCodigosPropuestos)
           
           // Agregamos el turno propuesto al empleado
-          this.agregarTurnoAEmpleado(new Date(dia), codigoPropuesto, empleadoPropuesto)
+          this.agregarAsignacionAEmpleado(new Date(dia), codigoPropuesto, empleadoPropuesto)
 
           turnosDeJornada = this.empleados.flatMap(e => e.turnos)
                                           .filter(t => moment(t.fecha).isSame(new Date(dia), 'days')) 
@@ -112,7 +112,7 @@ export default {
           for (let emp of empleadosQuePuedenRealizarTurnosPropuestos) {
             const codigoPropuesto = codigoTurnoAlternante
               + evaluacionEmpleados.definirMinimoTurnoPosibleEntreLosDisponibles(emp, codigosTurnosPosibles)[1];
-            this.agregarTurnoAEmpleado(new Date(dia), codigoPropuesto, emp);
+            this.agregarAsignacionAEmpleado(new Date(dia), codigoPropuesto, emp);
             codigoTurnoAlternante = codigoTurnoAlternante === "T" ? "M" : "T";
           }
         }
