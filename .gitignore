@@ -62,6 +62,7 @@ Thumbs.db
 */target
 /build
 */build
+bin/
 
 # IntelliJ specific files/directories
 out
@@ -82,3 +83,4 @@ atlassian-ide-plugin.xml
 
 # Logs
 logs/
+logs/gehoper-API.log

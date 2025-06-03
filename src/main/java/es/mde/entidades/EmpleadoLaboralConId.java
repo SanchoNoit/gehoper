@@ -2,7 +2,6 @@ package es.mde.entidades;
 
 import es.mde.libreriaexterna.EmpleadoLaboral;
 import es.mde.libreriaexterna.TipoEmpleado;
-import es.mde.libreriaexterna.TipoEspecial;
 import jakarta.persistence.Column;
 import jakarta.persistence.DiscriminatorValue;
 import jakarta.persistence.Entity;

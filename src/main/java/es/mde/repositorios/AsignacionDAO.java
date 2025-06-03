@@ -11,9 +11,10 @@ import org.springframework.data.rest.core.annotation.RestResource;
 import es.mde.entidades.AsignacionConId;
 
 @RepositoryRestResource(path = "asignaciones", itemResourceRel = "asignacion", collectionResourceRel = "asignaciones")
-public interface AsignacionDAO extends JpaRepository<AsignacionConId, Long> {
+public interface AsignacionDAO extends JpaRepository<AsignacionConId, Long>, AsignacionDAOCustom {
 
 	@RestResource(path ="por-fecha")
 	List<AsignacionConId> findByFechaEquals(@Param("fecha") LocalDate fecha);
 	
 }
+	

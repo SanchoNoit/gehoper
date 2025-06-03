@@ -15,4 +15,6 @@ public interface EmpleadoBaseDAO extends JpaRepository<EmpleadoBaseConId, Long>,
 	@RestResource(path ="por-nombre")
 	List<EmpleadoBaseConId> findByNombreContaining(@Param("nombre") String txt);
 	
+	EmpleadoBaseConId findEmpleadoBaseConIdById(@Param("id") Long id);
+	
 }

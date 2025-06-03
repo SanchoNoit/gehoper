@@ -1,6 +1,5 @@
 package es.mde.entidades;
 
-import java.time.Duration;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collection;
